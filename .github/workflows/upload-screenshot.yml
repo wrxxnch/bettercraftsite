@@ -1,0 +1,28 @@
+name: Upload Screenshot
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    if: contains(github.event.issue.title, '[screenshot]')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download image
+        run: |
+          url=$(echo "${{ github.event.issue.body }}" | grep -o 'https://[^ ]*')
+          filename=$(basename "$url")
+          curl -L "$url" -o screenshots/$filename
+
+      - name: Commit
+        run: |
+          git config user.name "screenshot-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add screenshots/*
+          git commit -m "New screenshot upload"
+          git push

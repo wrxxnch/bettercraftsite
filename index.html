@@ -88,10 +88,6 @@ border-radius:10px;
 border:1px solid #222;
 }
 
-.card:hover{
-border-color:#4fd1c5;
-}
-
 img{
 max-width:100%;
 border-radius:8px;
@@ -107,10 +103,6 @@ padding:15px;
 border-bottom:1px solid #222;
 }
 
-input[type=file]{
-margin-top:20px;
-}
-
 footer{
 padding:40px;
 text-align:center;
@@ -118,7 +110,7 @@ color:#666;
 border-top:1px solid #222;
 }
 
-/* VIEWER */
+/* viewer */
 
 .viewer{
 position:fixed;
@@ -133,13 +125,8 @@ justify-content:center;
 z-index:999;
 }
 
-.viewer{
-display:flex;
-pointer-events:auto;
-}
-
 .viewer.hidden{
-display:none !important;
+display:none;
 }
 
 .viewer-content{
@@ -162,21 +149,18 @@ cursor:pointer;
 </style>
 </head>
 
-
 <body>
 
 <header>
 
-<img src="src/header.png" height="50" width="150">
+<img src="src/header.png" height="50">
 
 <nav>
-
 <a onclick="show('home')">Home</a>
 <a onclick="show('commits')">Commits</a>
 <a onclick="show('gallery')">Gallery</a>
 <a onclick="show('upload')">Add Screenshot</a>
 <a onclick="show('about')">About</a>
-
 </nav>
 
 </header>
@@ -197,7 +181,9 @@ mobs, structures and gameplay mechanics.
 
 <div>
 
-<a class="btn primary" href="https://github.com/wrxxnch/luanti-bettercraft" target="_blank">
+<a class="btn primary"
+href="https://github.com/wrxxnch/luanti-bettercraft"
+target="_blank">
 GitHub
 </a>
 
@@ -209,19 +195,18 @@ Screenshots
 
 </div>
 
-
 <div class="container">
 
 <div class="grid">
 
 <div class="card">
 <h3>Advanced Systems</h3>
-<p>Smart crafting, blocks and gameplay mechanics.</p>
+<p>Smart crafting and gameplay mechanics.</p>
 </div>
 
 <div class="card">
 <h3>New Mobs</h3>
-<p>Warden, turtles, skeleton variants and more.</p>
+<p>Warden, turtles and more.</p>
 </div>
 
 <div class="card">
@@ -234,7 +219,6 @@ Screenshots
 </div>
 
 </section>
-
 
 
 <!-- COMMITS -->
@@ -250,7 +234,6 @@ Screenshots
 </div>
 
 </section>
-
 
 
 <!-- GALLERY -->
@@ -274,21 +257,21 @@ Screenshots
 </section>
 
 
-
 <!-- UPLOAD -->
+
 <section id="upload" class="hidden">
 
 <div class="container">
 
 <h1>Add Screenshot</h1>
 
-<input type="file" id="fileInput">
+<p>
+Click the button below to open a screenshot submission on GitHub.
+</p>
 
-<button class="btn primary" onclick="sendScreenshot()">
-Send Screenshot
+<button class="btn primary" onclick="openIssue()">
+Submit Screenshot
 </button>
-
-<p id="status"></p>
 
 </div>
 
@@ -304,29 +287,17 @@ Send Screenshot
 <h1>About BetterCraft</h1>
 
 <p>
-BetterCraft is a Luanti game based on Mineclonia expanding
-the vanilla gameplay with new mobs, systems, structures and
-mechanics.
+BetterCraft is a Luanti game expanding Mineclonia with
+new mobs, systems and structures.
 </p>
-
-<h3>Features</h3>
-
-<ul>
-<li>New mobs</li>
-<li>New structures</li>
-<li>Improved crafting</li>
-<li>Better world generation</li>
-</ul>
 
 </div>
 
 </section>
 
-
 <footer>
 BetterCraft Project
 </footer>
-
 
 
 <!-- IMAGE VIEWER -->
@@ -351,7 +322,6 @@ BetterCraft Project
 </div>
 
 
-
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
@@ -367,6 +337,7 @@ document.getElementById(page).classList.remove("hidden")
 }
 
 
+// commits
 
 async function loadCommits(){
 
@@ -399,10 +370,9 @@ list.appendChild(div)
 loadCommits()
 
 
+// swiper viewer
 
 let swiper
-
-
 
 function openViewer(index){
 
@@ -447,54 +417,12 @@ swiper.slideToLoop(index)
 
 }
 
-async function sendScreenshot(){
-
-const file=document.getElementById("fileInput").files[0]
-
-if(!file){
-alert("Select an image first")
-return
-}
-
-const reader=new FileReader()
-
-reader.onload=async function(){
-
-const base64=reader.result.split(",")[1]
-
-const body={
-title:"Screenshot upload",
-body:"Screenshot uploaded from website\n\n"+base64
-}
-
-await fetch("https://api.github.com/repos/wrxxnch/luanti-bettercraft/issues",{
-
-method:"POST",
-
-headers:{
-"Accept":"application/vnd.github+json"
-},
-
-body:JSON.stringify(body)
-
-})
-
-document.getElementById("status").innerText="Screenshot submitted!"
-
-}
-
-reader.readAsDataURL(file)
-
-}
-
-
 function closeViewer(){
-
 document.getElementById("viewer").classList.add("hidden")
-
 }
 
 
+// click gallery
 
 document.getElementById("galleryGrid").addEventListener("click",function(e){
 
@@ -511,30 +439,16 @@ openViewer(index)
 })
 
 
+// open issue for screenshot
 
-// Upload preview
+function openIssue(){
 
-document.getElementById("fileInput").addEventListener("change",function(){
+const url =
+"https://github.com/wrxxnch/bettercraftsite/issues/new?title=Screenshot&body=Attach%20your%20screenshot%20here"
 
-const file=this.files[0]
-
-if(!file)return
-
-const reader=new FileReader()
-
-reader.onload=function(e){
-
-const img=document.createElement("img")
-
-img.src=e.target.result
-
-document.getElementById("galleryGrid").appendChild(img)
+window.open(url,"_blank")
 
 }
-
-reader.readAsDataURL(file)
-
-})
 
 </script>
 
