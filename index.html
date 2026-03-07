@@ -276,7 +276,6 @@ Screenshots
 
 
 <!-- UPLOAD -->
-
 <section id="upload" class="hidden">
 
 <div class="container">
@@ -285,10 +284,15 @@ Screenshots
 
 <input type="file" id="fileInput">
 
+<button class="btn primary" onclick="sendScreenshot()">
+Send Screenshot
+</button>
+
+<p id="status"></p>
+
 </div>
 
 </section>
-
 
 
 <!-- ABOUT -->
@@ -443,6 +447,45 @@ swiper.slideToLoop(index)
 
 }
 
+async function sendScreenshot(){
+
+const file=document.getElementById("fileInput").files[0]
+
+if(!file){
+alert("Select an image first")
+return
+}
+
+const reader=new FileReader()
+
+reader.onload=async function(){
+
+const base64=reader.result.split(",")[1]
+
+const body={
+title:"Screenshot upload",
+body:"Screenshot uploaded from website\n\n"+base64
+}
+
+await fetch("https://api.github.com/repos/wrxxnch/luanti-bettercraft/issues",{
+
+method:"POST",
+
+headers:{
+"Accept":"application/vnd.github+json"
+},
+
+body:JSON.stringify(body)
+
+})
+
+document.getElementById("status").innerText="Screenshot submitted!"
+
+}
+
+reader.readAsDataURL(file)
+
+}
 
 
 function closeViewer(){
