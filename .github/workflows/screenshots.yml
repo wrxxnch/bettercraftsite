@@ -1,0 +1,42 @@
+name: Screenshot Upload
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+
+  screenshot:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v4
+
+    - name: Extract image
+      run: |
+
+        body=$(jq -r .issue.body "$GITHUB_EVENT_PATH")
+
+        base64=$(echo "$body" | tail -n 1)
+
+        name="screenshot-$(date +%s).png"
+
+        echo $base64 | base64 -d > screenshots/$name
+
+        git config user.name github-actions
+        git config user.email actions@github.com
+
+        git checkout -b screenshot-$name
+
+        git add screenshots/$name
+        git commit -m "Add screenshot $name"
+
+        git push origin screenshot-$name
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v6
+      with:
+        title: "New Screenshot"
+        branch: screenshot-${{ github.run_id }}
