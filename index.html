@@ -6,6 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
 <style>
 
 body{
@@ -40,12 +42,8 @@ padding:120px 20px;
 background:linear-gradient(135deg,#1c1c28,#0f0f12);
 }
 
-.hero h1{
-font-size:70px;
-margin:0;
-background:linear-gradient(90deg,#fff,#4fd1c5);
--webkit-background-clip:text;
-color:transparent;
+.hero img{
+max-width:400px;
 }
 
 .hero p{
@@ -97,10 +95,11 @@ border-color:#4fd1c5;
 img{
 max-width:100%;
 border-radius:8px;
+cursor:pointer;
 }
 
 .hidden{
-display:none;
+display:none !important;
 }
 
 .commit{
@@ -119,6 +118,47 @@ color:#666;
 border-top:1px solid #222;
 }
 
+/* VIEWER */
+
+.viewer{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.95);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:999;
+}
+
+.viewer{
+display:flex;
+pointer-events:auto;
+}
+
+.viewer.hidden{
+display:none !important;
+}
+
+.viewer-content{
+width:90%;
+max-width:1000px;
+}
+
+.closeBtn{
+position:absolute;
+top:30px;
+right:30px;
+background:#000;
+color:#fff;
+border:none;
+font-size:20px;
+padding:10px 15px;
+cursor:pointer;
+}
+
 </style>
 </head>
 
@@ -127,7 +167,7 @@ border-top:1px solid #222;
 
 <header>
 
-<img src="https://github.com/wrxxnch/luanti-bettercraft/blob/d4e2115b294315b087db2439783c9ff3620e837d/games/bettercraft/menu/header.png?raw=true" height="50"; width="150";>
+<img src="https://github.com/wrxxnch/luanti-bettercraft/blob/d4e2115b294315b087db2439783c9ff3620e837d/games/bettercraft/menu/header.png?raw=true" height="50" width="150">
 
 <nav>
 
@@ -280,12 +320,35 @@ mechanics.
 
 
 <footer>
-
 BetterCraft Project
-
 </footer>
 
 
+
+<!-- IMAGE VIEWER -->
+
+<div id="viewer" class="viewer hidden">
+
+<div class="viewer-content">
+
+<div class="swiper mySwiper">
+
+<div class="swiper-wrapper" id="swiperWrapper"></div>
+
+<div class="swiper-button-next"></div>
+<div class="swiper-button-prev"></div>
+
+</div>
+
+</div>
+
+<button class="closeBtn" onclick="closeViewer()">X</button>
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
 
@@ -333,6 +396,79 @@ loadCommits()
 
 
 
+let swiper
+
+
+
+function openViewer(index){
+
+const images=document.querySelectorAll("#galleryGrid img")
+
+const wrapper=document.getElementById("swiperWrapper")
+
+wrapper.innerHTML=""
+
+images.forEach(img=>{
+
+const slide=document.createElement("div")
+
+slide.className="swiper-slide"
+
+slide.innerHTML="<img src='"+img.src+"'>"
+
+wrapper.appendChild(slide)
+
+})
+
+document.getElementById("viewer").classList.remove("hidden")
+
+if(!swiper){
+
+swiper=new Swiper(".mySwiper",{
+
+navigation:{
+nextEl:".swiper-button-next",
+prevEl:".swiper-button-prev"
+},
+
+loop:true
+
+})
+
+}
+
+swiper.update()
+
+swiper.slideToLoop(index)
+
+}
+
+
+
+function closeViewer(){
+
+document.getElementById("viewer").classList.add("hidden")
+
+}
+
+
+
+document.getElementById("galleryGrid").addEventListener("click",function(e){
+
+if(e.target.tagName==="IMG"){
+
+const images=[...this.querySelectorAll("img")]
+
+const index=images.indexOf(e.target)
+
+openViewer(index)
+
+}
+
+})
+
+
+
 // Upload preview
 
 document.getElementById("fileInput").addEventListener("change",function(){
@@ -358,7 +494,6 @@ reader.readAsDataURL(file)
 })
 
 </script>
-
 
 </body>
 </html>
