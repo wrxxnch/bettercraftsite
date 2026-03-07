@@ -146,6 +146,27 @@ padding:10px 15px;
 cursor:pointer;
 }
 
+#readmeContent img{
+max-width:100%;
+border-radius:8px;
+margin:10px 0;
+}
+
+#readmeContent{
+line-height:1.6;
+color:#ddd;
+}
+
+#readmeContent h1,
+#readmeContent h2,
+#readmeContent h3{
+margin-top:30px;
+}
+
+#readmeContent a{
+color:#4fd1c5;
+}
+
 </style>
 </head>
 
@@ -286,15 +307,13 @@ Submit Screenshot
 
 <h1>About BetterCraft</h1>
 
-<p>
-BetterCraft expands Mineclonia with new mobs, structures
-and gameplay systems.
-</p>
+<div id="readmeContent">
+Loading README...
+</div>
 
 </div>
 
 </section>
-
 
 <footer>
 BetterCraft Project
@@ -326,8 +345,26 @@ BetterCraft Project
 
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <script>
+
+async function loadReadme(){
+
+const url =
+"https://raw.githubusercontent.com/wrxxnch/luanti-bettercraft/refs/heads/main/README.md"
+
+const res = await fetch(url)
+
+const text = await res.text()
+
+const html = marked.parse(text)
+
+document.getElementById("readmeContent").innerHTML = html
+
+}
+
+loadReadme()
 
 function show(page){
 
