@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,7 +111,7 @@ color:#666;
 border-top:1px solid #222;
 }
 
-/* viewer */
+/* VIEWER */
 
 .viewer{
 position:fixed;
@@ -266,7 +267,7 @@ Screenshots
 <h1>Add Screenshot</h1>
 
 <p>
-Click the button below to open a screenshot submission on GitHub.
+Click the button below to submit a screenshot on GitHub.
 </p>
 
 <button class="btn primary" onclick="openIssue()">
@@ -287,17 +288,19 @@ Submit Screenshot
 <h1>About BetterCraft</h1>
 
 <p>
-BetterCraft is a Luanti game expanding Mineclonia with
-new mobs, systems and structures.
+BetterCraft expands Mineclonia with new mobs, structures
+and gameplay systems.
 </p>
 
 </div>
 
 </section>
 
+
 <footer>
 BetterCraft Project
 </footer>
+
 
 
 <!-- IMAGE VIEWER -->
@@ -322,6 +325,7 @@ BetterCraft Project
 </div>
 
 
+
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
@@ -337,7 +341,7 @@ document.getElementById(page).classList.remove("hidden")
 }
 
 
-// commits
+/* LOAD COMMITS */
 
 async function loadCommits(){
 
@@ -365,12 +369,22 @@ list.appendChild(div)
 
 })
 
+const more=document.createElement("div")
+
+more.style.marginTop="20px"
+
+more.innerHTML=
+'See all commits <a href="https://github.com/wrxxnch/luanti-bettercraft/commits/main/" target="_blank" style="color:#4fd1c5">here</a>'
+
+list.appendChild(more)
+
 }
 
 loadCommits()
 
 
-// swiper viewer
+
+/* SWIPER VIEWER */
 
 let swiper
 
@@ -418,11 +432,13 @@ swiper.slideToLoop(index)
 }
 
 function closeViewer(){
+
 document.getElementById("viewer").classList.add("hidden")
+
 }
 
 
-// click gallery
+/* CLICK GALLERY */
 
 document.getElementById("galleryGrid").addEventListener("click",function(e){
 
@@ -439,7 +455,7 @@ openViewer(index)
 })
 
 
-// open issue for screenshot
+/* OPEN ISSUE */
 
 function openIssue(){
 
@@ -454,3 +470,4 @@ window.open(url,"_blank")
 
 </body>
 </html>
+```
