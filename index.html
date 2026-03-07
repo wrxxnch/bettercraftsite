@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BetterCraft</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#0f0f12;
+color:white;
+}
+
+header{
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid #222;
+}
+
+nav a{
+margin-left:20px;
+color:#aaa;
+text-decoration:none;
+cursor:pointer;
+}
+
+nav a:hover{
+color:white;
+}
+
+.hero{
+text-align:center;
+padding:120px 20px;
+background:linear-gradient(135deg,#1c1c28,#0f0f12);
+}
+
+.hero h1{
+font-size:70px;
+margin:0;
+background:linear-gradient(90deg,#fff,#4fd1c5);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+.hero p{
+color:#aaa;
+font-size:20px;
+max-width:600px;
+margin:auto;
+margin-top:20px;
+}
+
+.btn{
+display:inline-block;
+padding:12px 22px;
+margin:10px;
+border-radius:8px;
+border:1px solid #333;
+cursor:pointer;
+}
+
+.btn.primary{
+background:#4fd1c5;
+color:black;
+border:none;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:60px 20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+.card{
+background:#16161c;
+padding:20px;
+border-radius:10px;
+border:1px solid #222;
+}
+
+.card:hover{
+border-color:#4fd1c5;
+}
+
+img{
+max-width:100%;
+border-radius:8px;
+}
+
+.hidden{
+display:none;
+}
+
+.commit{
+padding:15px;
+border-bottom:1px solid #222;
+}
+
+input[type=file]{
+margin-top:20px;
+}
+
+footer{
+padding:40px;
+text-align:center;
+color:#666;
+border-top:1px solid #222;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<header>
+
+<img src="https://github.com/wrxxnch/luanti-bettercraft/blob/d4e2115b294315b087db2439783c9ff3620e837d/games/bettercraft/menu/header.png?raw=true" height="50"; width="150";>
+
+<nav>
+
+<a onclick="show('home')">Home</a>
+<a onclick="show('commits')">Commits</a>
+<a onclick="show('gallery')">Gallery</a>
+<a onclick="show('upload')">Add Screenshot</a>
+<a onclick="show('about')">About</a>
+
+</nav>
+
+</header>
+
+
+<!-- HOME -->
+
+<section id="home">
+
+<div class="hero">
+
+<img src="https://github.com/wrxxnch/luanti-bettercraft/blob/d4e2115b294315b087db2439783c9ff3620e837d/games/bettercraft/menu/header.png?raw=true">
+
+<p>
+A Luanti game expanding Mineclonia with new systems,
+mobs, structures and gameplay mechanics.
+</p>
+
+<div>
+
+<a class="btn primary" href="https://github.com/wrxxnch/luanti-bettercraft" target="_blank">
+GitHub
+</a>
+
+<button class="btn" onclick="show('gallery')">
+Screenshots
+</button>
+
+</div>
+
+</div>
+
+
+<div class="container">
+
+<div class="grid">
+
+<div class="card">
+<h3>Advanced Systems</h3>
+<p>Smart crafting, blocks and gameplay mechanics.</p>
+</div>
+
+<div class="card">
+<h3>New Mobs</h3>
+<p>Warden, turtles, skeleton variants and more.</p>
+</div>
+
+<div class="card">
+<h3>Expanded World</h3>
+<p>New structures and world generation.</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- COMMITS -->
+
+<section id="commits" class="hidden">
+
+<div class="container">
+
+<h1>Recent Commits</h1>
+
+<div id="commitList"></div>
+
+</div>
+
+</section>
+
+
+
+<!-- GALLERY -->
+
+<section id="gallery" class="hidden">
+
+<div class="container">
+
+<h1>Game Gallery</h1>
+
+<div class="grid" id="galleryGrid">
+
+<img src="screenshots/1.png">
+<img src="screenshots/2.png">
+<img src="screenshots/3.png">
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- UPLOAD -->
+
+<section id="upload" class="hidden">
+
+<div class="container">
+
+<h1>Add Screenshot</h1>
+
+<input type="file" id="fileInput">
+
+</div>
+
+</section>
+
+
+
+<!-- ABOUT -->
+
+<section id="about" class="hidden">
+
+<div class="container">
+
+<h1>About BetterCraft</h1>
+
+<p>
+BetterCraft is a Luanti game based on Mineclonia expanding
+the vanilla gameplay with new mobs, systems, structures and
+mechanics.
+</p>
+
+<h3>Features</h3>
+
+<ul>
+<li>New mobs</li>
+<li>New structures</li>
+<li>Improved crafting</li>
+<li>Better world generation</li>
+</ul>
+
+</div>
+
+</section>
+
+
+<footer>
+
+BetterCraft Project
+
+</footer>
+
+
+
+<script>
+
+function show(page){
+
+document.querySelectorAll("section").forEach(s=>{
+s.classList.add("hidden")
+})
+
+document.getElementById(page).classList.remove("hidden")
+
+}
+
+
+
+async function loadCommits(){
+
+const res = await fetch(
+"https://api.github.com/repos/wrxxnch/luanti-bettercraft/commits"
+)
+
+const data = await res.json()
+
+const list = document.getElementById("commitList")
+
+list.innerHTML=""
+
+data.slice(0,10).forEach(c=>{
+
+const div=document.createElement("div")
+
+div.className="commit"
+
+div.innerHTML=
+"<b>"+c.commit.message+"</b><br>"+
+"<small>"+c.commit.author.name+"</small>"
+
+list.appendChild(div)
+
+})
+
+}
+
+loadCommits()
+
+
+
+// Upload preview
+
+document.getElementById("fileInput").addEventListener("change",function(){
+
+const file=this.files[0]
+
+if(!file)return
+
+const reader=new FileReader()
+
+reader.onload=function(e){
+
+const img=document.createElement("img")
+
+img.src=e.target.result
+
+document.getElementById("galleryGrid").appendChild(img)
+
+}
+
+reader.readAsDataURL(file)
+
+})
+
+</script>
+
+
+</body>
+</html>
