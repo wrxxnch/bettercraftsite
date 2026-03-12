@@ -287,11 +287,11 @@ Screenshots
 <h1>Add Screenshot</h1>
 
 <p>
-Click the button below to submit a screenshot on GitHub.
+Click the button below to open GitHub and upload your screenshot.
 </p>
 
 <button class="btn primary" onclick="openIssue()">
-Submit Screenshot
+Upload Screenshot
 </button>
 
 </div>
@@ -365,6 +365,7 @@ document.getElementById("readmeContent").innerHTML = html
 }
 
 loadReadme()
+
 
 function show(page){
 
@@ -495,8 +496,21 @@ openViewer(index)
 
 function openIssue(){
 
+const title = encodeURIComponent("Upload Screenshot")
+
+const body = encodeURIComponent(
+`Upload your screenshot here.
+
+Instructions:
+1. Drag and drop your screenshot into the comment
+2. Or click the attach button
+3. Submit the issue
+
+Thanks for contributing to BetterCraft!`
+)
+
 const url =
-"https://github.com/wrxxnch/bettercraftsite/issues/new?title=Screenshot&body=Attach%20your%20screenshot%20here"
+`https://github.com/wrxxnch/bettercraftsite/issues/new?title=${title}&body=${body}`
 
 window.open(url,"_blank")
 
