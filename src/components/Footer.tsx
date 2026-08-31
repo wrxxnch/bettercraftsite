@@ -14,7 +14,8 @@ import {
   BookOpen,
   Github,
   Instagram,
-  Compass
+  Compass,
+  LogOut
 } from 'lucide-react';
 import { GameInfo } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -31,7 +32,7 @@ export const Footer: React.FC<FooterProps> = ({
   onOpenAdminPanel,
   onOpenAdminLogin
 }) => {
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, logout } = useAuth();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -228,8 +229,21 @@ export const Footer: React.FC<FooterProps> = ({
                       <span>Painel de Controle Admin</span>
                     </button>
                   </li>
-                  <li className="text-[10px] text-[#8e8999] font-mono">
+                  <li className="text-[10px] text-[#8e8999] font-mono truncate">
                     Conectado: {user?.email}
+                  </li>
+                  <li className="pt-1">
+                    <button
+                      onClick={() => {
+                        if (window.confirm('Deseja realmente sair da sua conta de administrador?')) {
+                          logout();
+                        }
+                      }}
+                      className="mc-btn mc-btn-red px-2.5 py-1 text-[11px] font-bold inline-flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <LogOut className="w-3 h-3" />
+                      <span>Sair da Conta</span>
+                    </button>
                   </li>
                 </>
               ) : !gameInfo.hidePublicAdminLogin ? (

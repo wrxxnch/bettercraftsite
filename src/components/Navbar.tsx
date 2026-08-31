@@ -12,7 +12,8 @@ import {
   X,
   Sparkles,
   UserCheck,
-  Pickaxe
+  Pickaxe,
+  LogOut
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { GameInfo } from '../types';
@@ -156,20 +157,38 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center gap-2">
+          {/* Mobile Menu Button & Mobile Quick Logout */}
+          <div className="flex md:hidden items-center gap-1.5">
             {isAdmin && (
-              <button
-                onClick={onOpenAdminPanel}
-                className="mc-btn mc-btn-diamond p-1.5 text-xs"
-                title="Painel Admin"
-              >
-                <ShieldCheck className="w-4 h-4" />
-              </button>
+              <>
+                <button
+                  onClick={onOpenAdminPanel}
+                  className="mc-btn mc-btn-diamond px-2 py-1.5 text-xs flex items-center gap-1"
+                  title="Painel Admin"
+                >
+                  <ShieldCheck className="w-4 h-4" />
+                  <span className="text-[10px] font-mono max-w-[60px] truncate hidden xs:inline">
+                    {user?.name?.split(' ')[0] || 'Admin'}
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    if (window.confirm('Deseja realmente sair da sua conta de administrador?')) {
+                      logout();
+                    }
+                  }}
+                  className="mc-btn mc-btn-red p-1.5 text-xs flex items-center justify-center cursor-pointer"
+                  title="Sair da Conta (Logout)"
+                  aria-label="Sair da Conta"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </>
             )}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="mc-btn p-1.5 text-xs"
+              className="mc-btn p-1.5 text-xs ml-0.5"
               aria-label="Abrir Menu"
             >
               {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -221,16 +240,45 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <div className="pt-3 border-t-2 border-[#2b2438] flex flex-col gap-2">
             {isAdmin ? (
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenAdminPanel();
-                }}
-                className="mc-btn mc-btn-diamond w-full py-2 text-xs flex items-center justify-center gap-1.5"
-              >
-                <ShieldCheck className="w-4 h-4" />
-                <span>Painel Administrativo ({user?.role})</span>
-              </button>
+              <div className="space-y-2">
+                <div className="p-2.5 mc-slot bg-[#120f1a] border border-[#3b344a] flex items-center justify-between">
+                  <div className="flex items-center gap-2 overflow-hidden">
+                    <UserCheck className="w-4 h-4 text-[#55ff55] flex-shrink-0" />
+                    <div className="overflow-hidden">
+                      <p className="text-[11px] font-bold text-white truncate font-mono">
+                        {user?.name || user?.email}
+                      </p>
+                      <p className="text-[9px] text-[#55ffff] font-mono uppercase">
+                        {user?.role === 'owner' ? 'Proprietário' : 'Administrador'}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      if (window.confirm('Deseja realmente sair da sua conta de administrador?')) {
+                        logout();
+                      }
+                    }}
+                    className="mc-btn mc-btn-red px-2.5 py-1 text-[11px] font-bold flex items-center gap-1 cursor-pointer flex-shrink-0"
+                    title="Desconectar da conta"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>Sair</span>
+                  </button>
+                </div>
+
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenAdminPanel();
+                  }}
+                  className="mc-btn mc-btn-diamond w-full py-2.5 text-xs flex items-center justify-center gap-1.5 cursor-pointer font-bold"
+                >
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>Abrir Painel Admin</span>
+                </button>
+              </div>
             ) : !gameInfo.hidePublicAdminLogin ? (
               <button
                 onClick={() => {

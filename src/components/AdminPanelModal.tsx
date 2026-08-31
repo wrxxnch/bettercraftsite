@@ -25,7 +25,8 @@ import {
   Upload,
   Wallpaper,
   MessageSquare,
-  Shuffle
+  Shuffle,
+  LogOut
 } from 'lucide-react';
 import { 
   AdminUser, 
@@ -94,7 +95,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
   onDeleteWallpaper,
   onSelectActiveWallpaper
 }) => {
-  const { user, isSuperAdmin } = useAuth();
+  const { user, isSuperAdmin, logout } = useAuth();
   const [activeTab, setActiveTab] = useState<AdminTab>('admins');
   
   // New Admin Form State
@@ -326,13 +327,29 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="w-8 h-8 mc-btn mc-btn-red text-xs flex items-center justify-center cursor-pointer p-0"
-            title="Fechar Painel"
-          >
-            <X className="w-4 h-4" />
-          </button>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <button
+              onClick={() => {
+                if (window.confirm('Deseja realmente sair da sua conta de administrador?')) {
+                  onClose();
+                  logout();
+                }
+              }}
+              className="mc-btn mc-btn-red px-2.5 py-1 text-xs flex items-center gap-1 cursor-pointer font-bold"
+              title="Desconectar da conta"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden xs:inline">Sair</span>
+            </button>
+
+            <button
+              onClick={onClose}
+              className="w-8 h-8 mc-btn bg-[#2a2438] hover:bg-[#3d3450] text-xs flex items-center justify-center cursor-pointer p-0"
+              title="Fechar Painel"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* Tab Navigation Navigation */}
