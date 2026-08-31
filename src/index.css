@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Pixelify Sans', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #110e19;
+    color: #dedcd4;
+    background-image: 
+      radial-gradient(rgba(45, 38, 64, 0.4) 1px, transparent 1px),
+      linear-gradient(180deg, #130f1c 0%, #1a1526 50%, #0d0a14 100%);
+    background-size: 16px 16px, 100% 100%;
+    image-rendering: pixelated;
+  }
+
+  .font-minecraft {
+    font-family: 'Press Start 2P', 'Pixelify Sans', cursive;
+  }
+  .font-pixel {
+    font-family: 'Pixelify Sans', cursive, sans-serif;
+  }
+  .font-silkscreen {
+    font-family: 'Silkscreen', monospace;
+  }
+  .font-vt323 {
+    font-family: 'VT323', monospace;
+  }
+  .font-mono {
+    font-family: 'Space Mono', monospace;
+  }
+}
+
+/* Minecraft Pixel Text Shadow */
+.mc-text-shadow {
+  text-shadow: 2px 2px 0px #000000;
+}
+
+.mc-title-shadow {
+  text-shadow: 3px 3px 0px #151515, 0 4px 0 #000000, 2px 2px 0 #2a2a2a;
+}
+
+.mc-yellow-splash {
+  color: #ffff55;
+  text-shadow: 2px 2px 0px #3f3f00;
+}
+
+.mc-emerald-glow {
+  text-shadow: 0 0 10px rgba(85, 255, 85, 0.6), 2px 2px 0 #005500;
+}
+
+.mc-diamond-glow {
+  text-shadow: 0 0 10px rgba(85, 255, 255, 0.6), 2px 2px 0 #005555;
+}
+
+/* Minecraft Pixel UI Buttons */
+.mc-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Pixelify Sans', cursive, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: #4b4b4b;
+  color: #ffffff;
+  border-top: 3px solid #7c7c7c;
+  border-left: 3px solid #7c7c7c;
+  border-right: 3px solid #202020;
+  border-bottom: 3px solid #202020;
+  box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.25), inset -1px -1px 0px rgba(0, 0, 0, 0.5);
+  transition: all 0.1s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.mc-btn:hover {
+  background-color: #5c5c5c;
+  border-top-color: #929292;
+  border-left-color: #929292;
+  color: #ffffa0;
+}
+
+.mc-btn:active {
+  border-top: 3px solid #202020;
+  border-left: 3px solid #202020;
+  border-right: 3px solid #7c7c7c;
+  border-bottom: 3px solid #7c7c7c;
+  transform: translateY(2px);
+  box-shadow: inset 1px 1px 0px rgba(0, 0, 0, 0.7);
+}
+
+/* Green Active Minecraft Button (Play / Action) */
+.mc-btn-green {
+  background-color: #2b742b;
+  border-top-color: #55aa55;
+  border-left-color: #55aa55;
+  border-right-color: #123d12;
+  border-bottom-color: #123d12;
+  color: #ffffff;
+  box-shadow: inset 1px 1px 0px rgba(180, 255, 180, 0.4), inset -1px -1px 0px rgba(0, 0, 0, 0.6);
+}
+
+.mc-btn-green:hover {
+  background-color: #389538;
+  border-top-color: #77cc77;
+  border-left-color: #77cc77;
+  color: #ffff88;
+}
+
+.mc-btn-green:active {
+  border-top-color: #123d12;
+  border-left-color: #123d12;
+  border-right-color: #55aa55;
+  border-bottom-color: #55aa55;
+}
+
+/* Diamond Cyan Button */
+.mc-btn-diamond {
+  background-color: #1e6f82;
+  border-top-color: #4fe3ff;
+  border-left-color: #4fe3ff;
+  border-right-color: #0b343d;
+  border-bottom-color: #0b343d;
+  color: #ffffff;
+}
+
+.mc-btn-diamond:hover {
+  background-color: #2689a0;
+  border-top-color: #8af0ff;
+  border-left-color: #8af0ff;
+  color: #ffffff;
+}
+
+/* Gold Button */
+.mc-btn-gold {
+  background-color: #9c6c14;
+  border-top-color: #ffcf40;
+  border-left-color: #ffcf40;
+  border-right-color: #472f05;
+  border-bottom-color: #472f05;
+  color: #ffffff;
+}
+
+.mc-btn-gold:hover {
+  background-color: #ba831c;
+  color: #ffffbb;
+}
+
+/* Danger / Redstone Button */
+.mc-btn-red {
+  background-color: #822222;
+  border-top-color: #d14949;
+  border-left-color: #d14949;
+  border-right-color: #3d0e0e;
+  border-bottom-color: #3d0e0e;
+  color: #ffffff;
+}
+
+.mc-btn-red:hover {
+  background-color: #9e2a2a;
+  color: #ffffff;
+}
+
+/* Minecraft Pixel Card Frame / Slot Panel */
+.mc-panel {
+  background-color: #211c2b;
+  border: 3px solid #3c344d;
+  box-shadow: 
+    inset 2px 2px 0px #4d4461,
+    inset -2px -2px 0px #13101a,
+    0 8px 0px -2px rgba(0, 0, 0, 0.4);
+}
+
+.mc-panel-stone {
+  background-color: #2d2b33;
+  border: 3px solid #4a4754;
+  box-shadow: 
+    inset 2px 2px 0px #5e5a6b,
+    inset -2px -2px 0px #18171c,
+    0 6px 0px 0px rgba(0, 0, 0, 0.35);
+}
+
+.mc-panel-dark {
+  background-color: #15131c;
+  border: 3px solid #2e283b;
+  box-shadow: 
+    inset 2px 2px 0px #3c344d,
+    inset -2px -2px 0px #09080d;
+}
+
+/* Minecraft Inventory Slot Frame */
+.mc-slot {
+  background-color: #14121a;
+  border-top: 2px solid #0a090e;
+  border-left: 2px solid #0a090e;
+  border-right: 2px solid #4a4359;
+  border-bottom: 2px solid #4a4359;
+}
+
+/* Custom Minecraft Pixel Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #15121c;
+  border-left: 2px solid #292434;
+}
+::-webkit-scrollbar-thumb {
+  background: #4a4457;
+  border: 2px solid #1a1722;
+  box-shadow: inset 1px 1px 0px #686178;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #55aa55;
+  border-color: #123d12;
+}
+
+/* Pixel Corner Notches */
+.pixel-corners {
+  clip-path: polygon(
+    0 4px, 4px 4px, 4px 0,
+    calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
+    100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%,
+    4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
+  );
+}

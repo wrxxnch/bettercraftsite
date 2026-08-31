@@ -1,0 +1,6 @@
+{
+  "name": "Luanti BetterCraft",
+  "description": "Site oficial do jogo Luanti BetterCraft com galeria de capturas de tela, changelog de commits do GitHub e painel administrativo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

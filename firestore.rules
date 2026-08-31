@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner() {
+      return isAuthenticated() && 
+        ('email' in request.auth.token) && 
+        request.auth.token.email != null && 
+        request.auth.token.email.lower() == 'jeanpierreowner@gmail.com';
+    }
+    
+    function isAdmin() {
+      return isOwner() || (
+        isAuthenticated() && 
+        ('email' in request.auth.token) && 
+        request.auth.token.email != null && 
+        exists(/databases/$(database)/documents/admins/$(request.auth.token.email.lower()))
+      );
+    }
+
+    match /admins/{adminId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    match /screenshots/{screenshotId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if true;
+    }
+
+    match /wallpapers/{wallpaperId} {
+      allow read: if true;
+      allow create, update, delete: if true;
+    }
+
+    match /gameInfo/{docId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    match /{document=**} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}

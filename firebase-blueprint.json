@@ -1,0 +1,60 @@
+{
+  "entities": {
+    "screenshots": {
+      "title": "Screenshots",
+      "description": "Galeria de capturas de tela do Luanti BetterCraft",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "category": { "type": "string" },
+        "author": { "type": "string" },
+        "authorUid": { "type": "string" },
+        "authorEmail": { "type": "string" },
+        "authorPhoto": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "featured": { "type": "boolean" },
+        "tags": { "type": "array" }
+      },
+      "required": ["title", "imageUrl", "author", "createdAt"]
+    },
+    "admins": {
+      "title": "Administrators",
+      "description": "Lista de administradores autorizados no sistema",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "addedAt": { "type": "string" },
+        "addedBy": { "type": "string" },
+        "isProtected": { "type": "boolean" },
+        "avatarUrl": { "type": "string" }
+      },
+      "required": ["email", "role"]
+    },
+    "gameInfo": {
+      "title": "Game Settings",
+      "description": "Configurações gerais e links do site",
+      "type": "object",
+      "properties": {
+        "allowPublicScreenshots": { "type": "boolean" },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "wallpapers": {
+      "title": "Wallpapers",
+      "description": "Papéis de parede do Luanti BetterCraft",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "url": { "type": "string" },
+        "addedAt": { "type": "string" },
+        "addedBy": { "type": "string" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["url"]
+    }
+  }
+}
