@@ -144,7 +144,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                   <span>Conectar com Conta Google</span>
                 </div>
                 <p className="text-xs text-[#cfcbd9]">
-                  Faça login seguro via Firebase Authentication com sua conta Google:
+                  Faça login seguro via Firebase Authentication com sua conta Google autorizada:
                 </p>
 
                 <button
@@ -162,53 +162,13 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                 </button>
               </div>
 
-              {/* Quick direct access for Owner jeanpierreowner@gmail.com */}
-              <div className="p-3.5 mc-slot bg-[#13101c] border-2 border-[#55ff55] space-y-2">
-                <div className="flex items-center gap-1.5 text-[#55ff55] text-xs font-bold uppercase">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>Acesso Proprietário (Jean Pierre)</span>
-                </div>
-                <button
-                  onClick={() => handleManualLogin('jeanpierreowner@gmail.com')}
-                  disabled={isLoading}
-                  className="mc-btn mc-btn-green w-full py-2 text-xs flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <LogIn className="w-3.5 h-3.5" />
-                  <span>Entrar como jeanpierreowner@gmail.com</span>
-                </button>
+              {/* Informative notice about admin whitelist */}
+              <div className="p-3 mc-slot bg-[#100d18] border border-[#2b2438] text-[11px] text-[#8e8999] flex items-start gap-2">
+                <Lock className="w-3.5 h-3.5 text-[#55ffff] flex-shrink-0 mt-0.5" />
+                <p>
+                  Apenas e-mails cadastrados previamente como administradores ou o proprietário têm autorização para gerenciar o site.
+                </p>
               </div>
-
-              {/* Or manual email check */}
-              <form 
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (emailInput.trim()) handleManualLogin(emailInput.trim());
-                }}
-                className="space-y-3 pt-2 border-t border-[#332c42]"
-              >
-                <label className="block text-xs font-bold text-[#b4afc4] uppercase flex items-center gap-1.5">
-                  <Lock className="w-3.5 h-3.5 text-[#55ffff]" />
-                  <span>Ou digite seu e-mail de admin autorizado</span>
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="email"
-                    required
-                    placeholder="seuemail@exemplo.com"
-                    value={emailInput}
-                    onChange={(e) => setEmailInput(e.target.value)}
-                    className="flex-1 px-3 py-2 bg-[#120f1a] border-2 border-[#3b344a] focus:border-[#55ffff] text-xs text-white placeholder-[#686278] focus:outline-none font-mono"
-                  />
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="mc-btn px-4 py-2 text-xs flex items-center gap-1 cursor-pointer"
-                  >
-                    <LogIn className="w-3.5 h-3.5" />
-                    <span>Entrar</span>
-                  </button>
-                </div>
-              </form>
             </div>
           )}
 

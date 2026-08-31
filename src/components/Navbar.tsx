@@ -136,15 +136,15 @@ export const Navbar: React.FC<NavbarProps> = ({
                   </span>
                 </button>
               </div>
-            ) : (
+            ) : !gameInfo.hidePublicAdminLogin ? (
               <button
                 onClick={onOpenAdminLogin}
                 className="mc-btn px-3 py-1.5 text-xs flex items-center gap-1.5 cursor-pointer text-[#cfcbd9]"
               >
                 <Shield className="w-3.5 h-3.5 text-[#8e8999]" />
-                <span>Admin Login</span>
+                <span>Login</span>
               </button>
-            )}
+            ) : null}
 
             {/* Main Download CTA Button */}
             <button
@@ -231,7 +231,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <ShieldCheck className="w-4 h-4" />
                 <span>Painel Administrativo ({user?.role})</span>
               </button>
-            ) : (
+            ) : !gameInfo.hidePublicAdminLogin ? (
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
@@ -240,9 +240,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="mc-btn w-full py-2 text-xs flex items-center justify-center gap-1.5"
               >
                 <Shield className="w-4 h-4" />
-                <span>Entrar como Administrador</span>
+                <span>Login</span>
               </button>
-            )}
+            ) : null}
 
             <button
               onClick={handleQuickDownload}

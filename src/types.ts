@@ -100,6 +100,7 @@ export interface GameInfo {
   blockframeCommunityUrl?: string; // https://wrxxnch.github.io/blockframecommunity/
   blockframeTutorialsUrl?: string; // https://wrxxnch.github.io/blockframesite/
   allowPublicScreenshots: boolean; // default false (admin-only)
+  hidePublicAdminLogin?: boolean; // When true, hides the admin login button from navigation/footer for general visitors
   luantiVersion: string;
   gameVersion: string;
   license: string;

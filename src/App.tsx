@@ -211,7 +211,7 @@ function MainContent() {
     loadInitialData();
   }, [loadInitialData]);
 
-  // Keyboard shortcut Ctrl+Shift+A for Admin Panel
+  // Keyboard shortcut Ctrl+Shift+A or URL query/hash for Admin Panel / Login
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
@@ -223,6 +223,17 @@ function MainContent() {
         }
       }
     };
+
+    // Check URL parameters or hash on initial load
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('admin') === 'true' || window.location.hash === '#admin' || window.location.hash === '#login') {
+      if (isAdmin) {
+        setAdminPanelOpen(true);
+      } else {
+        setAdminLoginOpen(true);
+      }
+    }
+
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isAdmin]);

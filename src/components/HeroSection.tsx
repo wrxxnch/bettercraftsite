@@ -138,19 +138,30 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 </h1>
               </div>
               
-              {/* Interactive Minecraft Yellow Splash Text */}
+              {/* Interactive Minecraft Yellow Splash Text (Only admins can click to roll; ordinary users see random on entry) */}
               <div className="pt-1">
-                <button
-                  key={splashKey}
-                  onClick={handleRollSplash}
-                  title="Clique para trocar o texto splash!"
-                  className="inline-flex items-center gap-1.5 transform -rotate-2 py-1 px-3 bg-[#1d1628]/90 border border-[#ffaa00]/60 hover:border-[#ffff55] transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-md rounded-xs group"
-                >
-                  <span className="text-sm sm:text-base font-bold mc-yellow-splash tracking-wide text-[#ffff55] group-hover:text-[#ffffff] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                    {currentSplash}
-                  </span>
-                  <Shuffle className="w-3 h-3 text-[#ffaa00] opacity-60 group-hover:opacity-100 transition-opacity" />
-                </button>
+                {isAdmin ? (
+                  <button
+                    key={splashKey}
+                    onClick={handleRollSplash}
+                    title="Admin: Clique para trocar o texto splash!"
+                    className="inline-flex items-center gap-1.5 transform -rotate-2 py-1 px-3 bg-[#1d1628]/90 border border-[#ffaa00]/60 hover:border-[#ffff55] transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-md rounded-xs group"
+                  >
+                    <span className="text-sm sm:text-base font-bold mc-yellow-splash tracking-wide text-[#ffff55] group-hover:text-[#ffffff] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                      {currentSplash}
+                    </span>
+                    <Shuffle className="w-3 h-3 text-[#ffaa00] opacity-60 group-hover:opacity-100 transition-opacity" />
+                  </button>
+                ) : (
+                  <div
+                    key={splashKey}
+                    className="inline-flex items-center gap-1.5 transform -rotate-2 py-1 px-3 bg-[#1d1628]/90 border border-[#ffaa00]/40 shadow-md rounded-xs select-none"
+                  >
+                    <span className="text-sm sm:text-base font-bold mc-yellow-splash tracking-wide text-[#ffff55] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                      {currentSplash}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
 

@@ -11,7 +11,10 @@ import {
   Code,
   Package,
   Users,
-  BookOpen
+  BookOpen,
+  Github,
+  Instagram,
+  Compass
 } from 'lucide-react';
 import { GameInfo } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -40,7 +43,7 @@ export const Footer: React.FC<FooterProps> = ({
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b-2 border-[#201b2c]">
           
-          {/* Col 1: About & Logo */}
+          {/* Col 1: About & Social Networks */}
           <div className="space-y-3">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 mc-slot bg-[#1e1929] flex items-center justify-center border-2 border-[#55ffff] p-0.5 overflow-hidden">
@@ -53,6 +56,48 @@ export const Footer: React.FC<FooterProps> = ({
             <p className="text-[#b4afc4] text-xs leading-relaxed">
               {gameInfo.longDescription}
             </p>
+
+            {/* Social Networks requested by user */}
+            <div className="pt-2 space-y-2">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#ffaa00] font-minecraft block">
+                REDES SOCIAIS & AUTOR
+              </span>
+              <div className="flex flex-wrap gap-2">
+                <a
+                  href="https://github.com/wrxxnch"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mc-btn px-2.5 py-1.5 text-[11px] flex items-center gap-1.5 text-white hover:text-[#55ffff] transition-colors"
+                  title="GitHub: wrxxnch"
+                >
+                  <Github className="w-3.5 h-3.5 text-[#55ffff]" />
+                  <span>wrxxnch</span>
+                </a>
+
+                <a
+                  href="https://instagram.com/jeanpseven"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mc-btn px-2.5 py-1.5 text-[11px] flex items-center gap-1.5 text-white hover:text-[#ff55ff] transition-colors"
+                  title="Instagram: jeanpseven"
+                >
+                  <Instagram className="w-3.5 h-3.5 text-[#ff55ff]" />
+                  <span>jeanpseven</span>
+                </a>
+
+                <a
+                  href="https://pinterest.com/jeanpseven"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mc-btn px-2.5 py-1.5 text-[11px] flex items-center gap-1.5 text-white hover:text-[#ff5555] transition-colors"
+                  title="Pinterest: jeanpseven"
+                >
+                  <span className="w-3.5 h-3.5 flex items-center justify-center font-bold text-[11px] text-[#ff5555] font-minecraft leading-none">P</span>
+                  <span>jeanpseven</span>
+                </a>
+              </div>
+            </div>
+
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <span className="px-2 py-0.5 mc-slot text-[#55ff55] font-mono text-[10px]">
                 Luanti Engine {gameInfo.luantiVersion}
@@ -187,16 +232,16 @@ export const Footer: React.FC<FooterProps> = ({
                     Conectado: {user?.email}
                   </li>
                 </>
-              ) : (
+              ) : !gameInfo.hidePublicAdminLogin ? (
                 <li>
                   <button
                     onClick={onOpenAdminLogin}
                     className="text-[#b4afc4] hover:text-white flex items-center gap-1 cursor-pointer"
                   >
-                    <span>Login de Administrador</span>
+                    <span>Login</span>
                   </button>
                 </li>
-              )}
+              ) : null}
               <li className="pt-2">
                 <a
                   href="https://www.luanti.org"

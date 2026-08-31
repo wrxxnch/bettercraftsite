@@ -1183,6 +1183,62 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                 </div>
               </div>
 
+              {/* PERMISSION CARD: VISIBILITY OF ADMIN LOGIN BUTTON */}
+              <div className="p-4 mc-panel bg-[#1a1527] border-2 border-[#55ffff]/60 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 mc-slot flex items-center justify-center text-[#55ffff] bg-[#120f1a]">
+                      <ShieldCheck className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-white uppercase font-minecraft">
+                        VISIBILIDADE DO BOTÃO DE LOGIN ADMIN
+                      </h4>
+                      <p className="text-[11px] text-[#b4afc4]">
+                        Oculte o botão "Admin Login" da barra de navegação e rodapé para visitantes comuns.
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setEditableGameInfo({
+                      ...editableGameInfo,
+                      hidePublicAdminLogin: !editableGameInfo.hidePublicAdminLogin
+                    })}
+                    className={`px-3 py-1.5 mc-btn text-xs font-bold flex items-center gap-1.5 cursor-pointer ${
+                      editableGameInfo.hidePublicAdminLogin
+                        ? 'mc-btn-red text-white'
+                        : 'mc-btn-green text-white'
+                    }`}
+                  >
+                    {editableGameInfo.hidePublicAdminLogin ? (
+                      <>
+                        <Lock className="w-3.5 h-3.5" />
+                        <span>BOTÃO OCULTO PARA PÚBLICO</span>
+                      </>
+                    ) : (
+                      <>
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>BOTÃO VISÍVEL NO MENU</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                <div className={`p-2.5 mc-slot text-xs ${
+                  editableGameInfo.hidePublicAdminLogin
+                    ? 'bg-[#291414] text-[#ffaaaa] border-[#742b2b]' 
+                    : 'bg-[#142814] text-[#88ff88] border-[#2b742b]'
+                }`}>
+                  {editableGameInfo.hidePublicAdminLogin ? (
+                    <span>🔒 <strong>Privado & Discreto:</strong> Visitantes não verão o botão de login no cabeçalho ou rodapé. O acesso fica restrito via atalho de teclado (<kbd className="bg-[#120f1a] px-1.5 py-0.5 border border-[#3b344a] text-white">Ctrl + Shift + A</kbd>) ou URL para administradores.</span>
+                  ) : (
+                    <span>👁️ <strong>Visível:</strong> O botão "Admin Login" fica aparente para todos no topo e no rodapé do site.</span>
+                  )}
+                </div>
+              </div>
+
               {/* SECTION: ECOSYSTEM & OFFICIAL REPOSITORY URLS */}
               <div className="p-4 mc-panel bg-[#151120] border-2 border-[#55ffff]/40 space-y-3">
                 <div className="flex items-center gap-2">
