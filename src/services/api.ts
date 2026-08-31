@@ -130,12 +130,46 @@ class ApiService {
     if (!json.success) throw new Error(json.error || 'Erro ao excluir versão');
   }
 
-  // GitHub Commits
+  // GitHub Commits (fetches directly from /api/commits with direct GitHub fallback)
   async getCommits(): Promise<GitHubCommit[]> {
-    const res = await fetch('/api/commits');
-    const json = await res.json();
-    if (!json.success) throw new Error(json.error || 'Falha ao sincronizar commits');
-    return json.data;
+    try {
+      const res = await fetch('/api/commits');
+      const json = await res.json();
+      if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+        return json.data;
+      }
+    } catch (e) {
+      console.warn('API route /api/commits failed, attempting direct GitHub fetch:', e);
+    }
+
+    // Direct GitHub fallback to ensure live commits are always loaded from wrxxnch/luanti-bettercraft main branch
+    try {
+      const ghRes = await fetch('https://api.github.com/repos/wrxxnch/luanti-bettercraft/commits?sha=main&per_page=25', {
+        headers: {
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
+      if (ghRes.ok) {
+        const ghData: any[] = await ghRes.json();
+        if (Array.isArray(ghData) && ghData.length > 0) {
+          return ghData.map((item: any) => ({
+            sha: item.sha,
+            message: item.commit?.message || 'Commit sem mensagem',
+            author: {
+              name: item.commit?.author?.name || item.author?.login || 'Jean Pierre (wrxxnch)',
+              email: item.commit?.author?.email,
+              date: item.commit?.author?.date || new Date().toISOString(),
+              avatar_url: item.author?.avatar_url || `https://avatars.githubusercontent.com/u/134978254?v=4`
+            },
+            html_url: item.html_url || `https://github.com/wrxxnch/luanti-bettercraft/commit/${item.sha}`
+          }));
+        }
+      }
+    } catch (ghErr) {
+      console.warn('Direct GitHub fetch also failed:', ghErr);
+    }
+
+    throw new Error('Falha ao sincronizar commits');
   }
 
   // Admins

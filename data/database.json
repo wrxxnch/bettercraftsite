@@ -1,0 +1,569 @@
+{
+  "admins": [
+    {
+      "id": "admin-owner",
+      "email": "jeanpierreowner@gmail.com",
+      "name": "Jean Pierre",
+      "role": "owner",
+      "addedAt": "2026-08-28T00:00:00.000Z",
+      "addedBy": "System (Criador Original)",
+      "isProtected": true,
+      "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "admin-wrxxnch",
+      "email": "wrxxnch@users.noreply.github.com",
+      "name": "Wrxxnch (Dev Lead)",
+      "role": "admin",
+      "addedAt": "2026-08-28T01:00:00.000Z",
+      "addedBy": "jeanpierreowner@gmail.com",
+      "isProtected": false,
+      "avatarUrl": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80"
+    }
+  ],
+  "screenshots": [],
+  "changelog": [
+    {
+      "id": "rel-1-4-2",
+      "version": "v1.4.2",
+      "title": "Ajustes de Desempenho & Novo Sistema de Luz",
+      "date": "2026-08-27",
+      "tag": "Último Lançamento",
+      "description": "Atualização focada na otimização de renderização de chunks, iluminação suave aprimorada e correções no guia de crafting.",
+      "highlights": [
+        "Redução de 35% no consumo de memória RAM ao carregar novos biomas",
+        "Novo shader de água translúcida com reflexo de nuvens volumétricas",
+        "Correção de colisões em escadas e lajes de pedra decorativa"
+      ],
+      "changes": [
+        {
+          "type": "added",
+          "text": "Adicionados 12 novos blocos decorativos de madeira tratada e pedra esculpida."
+        },
+        {
+          "type": "added",
+          "text": "Suporte a filtros de busca rápida dentro do livro de receitas do BetterCraft."
+        },
+        {
+          "type": "changed",
+          "text": "Balanceamento do dano e durabilidade de ferramentas de ferro e diamante."
+        },
+        {
+          "type": "fixed",
+          "text": "Corrigido glitch visual que causava piscar de sombras em cavernas profundas."
+        },
+        {
+          "type": "fixed",
+          "text": "Resolvido bug onde itens dropados podiam atravessar cercas de madeira."
+        }
+      ],
+      "author": "wrxxnch & jeanpierreowner"
+    },
+    {
+      "id": "rel-1-4-0",
+      "version": "v1.4.0",
+      "title": "Grande Expansão: Biomas & Criaturas",
+      "date": "2026-08-15",
+      "tag": "Major Update",
+      "description": "Uma das maiores atualizações do BetterCraft até hoje, trazendo geração de mundo renovada, novos mobs e sons atmosféricos.",
+      "highlights": [
+        "4 novos biomas: Floresta Mística, Taiga Gelada, Deserto Dourado e Pântano Sombrio",
+        "Novo sistema de inteligência artificial para mobs terrestres e aquáticos",
+        "Trilha sonora ambiente dinâmica integrada ao ciclo dia/noite"
+      ],
+      "changes": [
+        {
+          "type": "added",
+          "text": "Novas criaturas pacíficas: cervos, ovelhas selvagens e pássaros nos bosques."
+        },
+        {
+          "type": "added",
+          "text": "Novas dungeons subterrâneas com baús de tesouro protegido."
+        },
+        {
+          "type": "changed",
+          "text": "Refatoração completa do código de geração de árvores para modelos volumétricos mais naturais."
+        },
+        {
+          "type": "removed",
+          "text": "Removidos blocos obsoletos de teste que causavam incompatibilidade com Luanti 5.9."
+        }
+      ],
+      "author": "wrxxnch"
+    },
+    {
+      "id": "rel-1-3-0",
+      "version": "v1.3.0",
+      "title": "Compatibilidade Luanti 5.9+ & Novo Menu",
+      "date": "2026-07-28",
+      "tag": "Estabilidade",
+      "description": "Atualização de compatibilidade total com o motor Luanti moderno e interface de usuário renovada.",
+      "highlights": [
+        "Total compatibilidade com a versão 5.9.0 e 5.10.0 do Luanti",
+        "Interface gráfica com suporte a alta resolução e telas sensíveis ao toque (Android)"
+      ],
+      "changes": [
+        {
+          "type": "added",
+          "text": "Configurações gráficas in-game para ajustar sombras e alcance de visão rapidamente."
+        },
+        {
+          "type": "changed",
+          "text": "Migração das APIs antigas do Minetest para as diretrizes atualizadas do Luanti."
+        },
+        {
+          "type": "fixed",
+          "text": "Correção de travamentos em servidores multiplayer com mais de 20 jogadores simultâneos."
+        }
+      ],
+      "author": "wrxxnch"
+    }
+  ],
+  "gameInfo": {
+    "title": "Luanti BetterCraft",
+    "tagline": "A evolução da experiência voxel para o motor de jogo Luanti",
+    "description": "BetterCraft é um jogo completo para Luanti (antigo Minetest) focado em sobrevivência aprimorada, geração de mundos deslumbrante, crafting refinado e performance impecável.",
+    "longDescription": "Construído sobre o poderoso e leve motor Luanti (anteriormente Minetest), BetterCraft redefine a jogabilidade sandbox com biomas diversificados, novos minérios, iluminação dinâmica, árvores com folhagens densas, ferramentas balanceadas e ecossistema conectado com Blockframe.",
+    "repoUrl": "https://github.com/wrxxnch/bettercraft",
+    "repoOwner": "wrxxnch",
+    "repoName": "bettercraft",
+    "gamesRepoUrl": "https://github.com/wrxxnch/bettercraft",
+    "officialCodeRepoUrl": "https://github.com/wrxxnch/luanti-bettercraft",
+    "blockframeContentDbUrl": "https://content.luanti.org/packages/wrxxnch/blockframe/",
+    "blockframeCommunityUrl": "https://wrxxnch.github.io/blockframecommunity/",
+    "blockframeTutorialsUrl": "https://wrxxnch.github.io/blockframesite/",
+    "allowPublicScreenshots": false,
+    "luantiVersion": "5.9.0+",
+    "gameVersion": "v1.4.2",
+    "license": "GPL-3.0 / MIT",
+    "features": [
+      {
+        "id": "world-gen",
+        "title": "Geração de Mundo Exuberante",
+        "description": "Montanhas colossais, vales verdejantes, biomas árticos e cavernas profundas com ecossistemas únicos e novas formações de rochas.",
+        "icon": "Mountain"
+      },
+      {
+        "id": "modern-crafting",
+        "title": "Sistema de Crafting Intuitivo",
+        "description": "Guia de receitas integrado, bancadas de trabalho especializadas, fornos de alta temperatura e automação simplificada.",
+        "icon": "Hammer"
+      },
+      {
+        "id": "lighting-shaders",
+        "title": "Iluminação & Shaders Volumétricos",
+        "description": "Suporte nativo aos modernos shaders do Luanti: luz solar realista, névoa volumétrica, água com reflexos e oclusão de ambiente.",
+        "icon": "Sun"
+      },
+      {
+        "id": "mobs-fauna",
+        "title": "Fauna e Monstros Balanceados",
+        "description": "Animais domesticáveis para fazendas, criaturas hostis com IA desafiadora em cavernas e bosses em estruturas raras.",
+        "icon": "Sparkles"
+      },
+      {
+        "id": "lightweight-perf",
+        "title": "Desempenho Ultra-Leve",
+        "description": "Roda suavemente até em computadores modestos e dispositivos Android, consumindo uma fração da memória de outros jogos voxel.",
+        "icon": "Zap"
+      },
+      {
+        "id": "moddable-luanti",
+        "title": "100% Modificável em Lua",
+        "description": "Compatível com a rica biblioteca de mods Luanti e ContentDB, facilitando criação e personalização de servidores.",
+        "icon": "Code"
+      }
+    ],
+    "downloadLinks": [
+      {
+        "id": "dl-release",
+        "label": "Baixar Última Versão (ZIP)",
+        "url": "https://github.com/wrxxnch/bettercraft/archive/refs/heads/main.zip",
+        "platform": "Todos os Sistemas",
+        "subtext": "Código-fonte pronto para pasta games/",
+        "recommended": true,
+        "type": "zip"
+      },
+      {
+        "id": "dl-github",
+        "label": "Repositório no GitHub",
+        "url": "https://github.com/wrxxnch/bettercraft",
+        "platform": "GitHub",
+        "subtext": "Clonar via git ou contribuir",
+        "type": "github"
+      },
+      {
+        "id": "dl-luanti",
+        "label": "Baixar Motor Luanti Engine",
+        "url": "https://www.luanti.org/downloads/",
+        "platform": "Engine Necessária",
+        "subtext": "Disponível para Windows, Linux, Android e macOS",
+        "type": "direct"
+      }
+    ],
+    "installationSteps": {
+      "windows": [
+        {
+          "step": 1,
+          "title": "Instalar o Luanti",
+          "description": "Baixe e instale a versão mais recente do Luanti (5.9.0 ou superior) em luanti.org."
+        },
+        {
+          "step": 2,
+          "title": "Baixar o BetterCraft",
+          "description": "Clique no botão 'Baixar Última Versão' acima para obter o arquivo ZIP do repositório."
+        },
+        {
+          "step": 3,
+          "title": "Extrair na pasta games/",
+          "description": "Extraia a pasta para dentro do diretório 'games' do seu Luanti (geralmente em C:\\Luanti\\games\\ ou %APPDATA%\\luanti\\games\\). Renomeie a pasta para 'bettercraft'."
+        },
+        {
+          "step": 4,
+          "title": "Iniciar o Jogo",
+          "description": "Abra o Luanti, selecione 'BetterCraft' na lista de jogos no menu principal e crie seu novo mundo!"
+        }
+      ],
+      "linux": [
+        {
+          "step": 1,
+          "title": "Instalar o Luanti via Flatpak ou Gerenciador de Pacotes",
+          "description": "Instale o Luanti utilizando seu gerenciador favorito:",
+          "codeSnippet": "flatpak install flathub org.luanti.Luanti\n# ou no Ubuntu/Debian:\nsudo apt install minetest"
+        },
+        {
+          "step": 2,
+          "title": "Clonar o repositório BetterCraft",
+          "description": "Execute o comando git para clonar diretamente na pasta de jogos do Luanti:",
+          "codeSnippet": "mkdir -p ~/.luanti/games\ncd ~/.luanti/games\ngit clone https://github.com/wrxxnch/bettercraft.git bettercraft"
+        },
+        {
+          "step": 3,
+          "title": "Jogar",
+          "description": "Inicie o Luanti pelo lançador ou terminal e selecione BetterCraft."
+        }
+      ],
+      "android": [
+        {
+          "step": 1,
+          "title": "Instalar Luanti no Android",
+          "description": "Baixe o aplicativo oficial 'Luanti' na Google Play Store ou F-Droid."
+        },
+        {
+          "step": 2,
+          "title": "Copiar arquivos para a pasta de dados",
+          "description": "Extraia o ZIP do BetterCraft dentro de Android/data/net.minetest.minetest/files/luanti/games/bettercraft/ (ou use o gerenciador de arquivos integrado do Luanti)."
+        },
+        {
+          "step": 3,
+          "title": "Iniciar e Jogar",
+          "description": "Abra o aplicativo, escolha 'BetterCraft' e divirta-se em qualquer lugar!"
+        }
+      ],
+      "macos": [
+        {
+          "step": 1,
+          "title": "Instalar Luanti para macOS",
+          "description": "Baixe a versão DMG do Luanti em luanti.org ou instale via Homebrew: brew install luanti"
+        },
+        {
+          "step": 2,
+          "title": "Copiar para Application Support",
+          "description": "Extraia a pasta em ~/Library/Application Support/luanti/games/bettercraft"
+        },
+        {
+          "step": 3,
+          "title": "Pronto para jogar",
+          "description": "Inicie o Luanti no Launchpad e aproveite o BetterCraft."
+        }
+      ]
+    }
+  },
+  "auditLogs": [
+    {
+      "id": "log-init",
+      "timestamp": "2026-08-31T11:34:02.863Z",
+      "userEmail": "system",
+      "action": "Sistema Inicializado",
+      "details": "Banco de dados local e contas de administração inicializadas com sucesso."
+    }
+  ],
+  "cachedCommits": [
+    {
+      "sha": "751bfcb2485af040a38456c4323167bbe531a3ec",
+      "message": "fixed golden apples,now edible and effects",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-31T14:27:23Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/751bfcb2485af040a38456c4323167bbe531a3ec"
+    },
+    {
+      "sha": "2bc4a7b01d272a38fed079a24b110f94f5e9df2f",
+      "message": "fix: fixed walkover and physics.lua(misclicked switched files)",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-31T13:14:18Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/2bc4a7b01d272a38fed079a24b110f94f5e9df2f"
+    },
+    {
+      "sha": "70b21a451e6a63f6f835e51d220a7b18090d8c00",
+      "message": "fix: fix spider slowdown_nodes error & add potion physics fallback",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-31T13:03:36Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/70b21a451e6a63f6f835e51d220a7b18090d8c00"
+    },
+    {
+      "sha": "8147413d0c13116610d9ef3eff02cce615e2f357",
+      "message": "fixed frost walker logic,physics.lua sculk death XP error,updated screenshot.png from icon.png",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-31T12:47:31Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/8147413d0c13116610d9ef3eff02cce615e2f357"
+    },
+    {
+      "sha": "06d5e0a4e34ccb44e5022d42d054fcca734b2351",
+      "message": "updated screenshot.png to the game icon",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-31T12:44:18Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/06d5e0a4e34ccb44e5022d42d054fcca734b2351"
+    },
+    {
+      "sha": "8dc7a39853b0130ae8e8f2a7503639dffde78754",
+      "message": "fixed frost walker logic,physics.lua sculk death XP error",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-31T12:04:01Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/8dc7a39853b0130ae8e8f2a7503639dffde78754"
+    },
+    {
+      "sha": "4a4db76a5ef6b6d7a2ec2201b92ee6bf0bef9b6b",
+      "message": "fixed frost walker logic,physics.lua sculk death XP error",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-31T12:02:31Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/4a4db76a5ef6b6d7a2ec2201b92ee6bf0bef9b6b"
+    },
+    {
+      "sha": "b2615828bf65cab5a366be92aee5fac6c507b5eb",
+      "message": "fixed frost walker logic,physics.lua sculk death XP error",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-31T12:02:03Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/b2615828bf65cab5a366be92aee5fac6c507b5eb"
+    },
+    {
+      "sha": "81805283c2cedf66533363feec62ae9c8d605db3",
+      "message": "fixed flowerpot texture error",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-27T12:30:56Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/81805283c2cedf66533363feec62ae9c8d605db3"
+    },
+    {
+      "sha": "5de0fd29a578b2cf9b22f7130d62d48b2ddf1a37",
+      "message": "big spikes,nausea and geysers mts",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-26T20:31:31Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/5de0fd29a578b2cf9b22f7130d62d48b2ddf1a37"
+    },
+    {
+      "sha": "4ccd595f410e173744df0517c243ffd81ff9d442",
+      "message": "fixed the geyser logic",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-26T20:21:20Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/4ccd595f410e173744df0517c243ffd81ff9d442"
+    },
+    {
+      "sha": "fcb4242e9cd0f273fc5ad5de95d4d17d11eca15f",
+      "message": "lush caves and sulphur added to menu screenshots",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-26T20:09:07Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/fcb4242e9cd0f273fc5ad5de95d4d17d11eca15f"
+    },
+    {
+      "sha": "b0a8f86b9674f745908dc135c02924e1c74ed62d",
+      "message": "removed mcl_cblocks conflicting with bc_cblocks",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-26T20:03:13Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/b0a8f86b9674f745908dc135c02924e1c74ed62d"
+    },
+    {
+      "sha": "84e79971f772c0c4e3a4edf387ba206987ddebef",
+      "message": "big sulphur spikes added",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-26T20:02:34Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/84e79971f772c0c4e3a4edf387ba206987ddebef"
+    },
+    {
+      "sha": "787e0844f2282a5fa43354f5de52c8a64d2cfc9e",
+      "message": "re-added spike logic",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-26T19:33:54Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/787e0844f2282a5fa43354f5de52c8a64d2cfc9e"
+    },
+    {
+      "sha": "1db29d71e3b33a49e81b88f0a4c5a03bb80abac1",
+      "message": "now particles only happen when near water",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-26T18:54:00Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/1db29d71e3b33a49e81b88f0a4c5a03bb80abac1"
+    },
+    {
+      "sha": "98ad8a58b65e022ab0a8b1140a4edd8ef43bf6f1",
+      "message": "passive sulphur bubbles added to potent sulphur block with water above",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-26T17:55:08Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/98ad8a58b65e022ab0a8b1140a4edd8ef43bf6f1"
+    },
+    {
+      "sha": "d44529dc61daa29868378cea416b6f9cf2d449a7",
+      "message": "geyser now pulls players,ptBr to EnUS",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-26T17:45:47Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/d44529dc61daa29868378cea416b6f9cf2d449a7"
+    },
+    {
+      "sha": "a9bd465ec485af0764341507cc0c560724eba0bb",
+      "message": "added geyser (magma+potent_sulphur+water) with nausea effect",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-26T17:25:31Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/a9bd465ec485af0764341507cc0c560724eba0bb"
+    },
+    {
+      "sha": "a78a1ac8944569de5ae06e5e7705a68cfd3d8e62",
+      "message": "now sulphur spikes are walkable=true(collision) and file ptBr to En-US",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-26T15:26:48Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/a78a1ac8944569de5ae06e5e7705a68cfd3d8e62"
+    },
+    {
+      "sha": "f97c559841ae08d484aedaf4823bf8815f86f567",
+      "message": "added snow fox variant",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-26T14:26:57Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/f97c559841ae08d484aedaf4823bf8815f86f567"
+    },
+    {
+      "sha": "ceb5e5b800fc629bc48f020e0554fc8478941cc7",
+      "message": "updated mod.conf",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-25T14:06:24Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/ceb5e5b800fc629bc48f020e0554fc8478941cc7"
+    },
+    {
+      "sha": "9f6cc73e006c2ebfa3550b3c1fdd01ca1967e705",
+      "message": "added color blocks tab and infinite in creative fixed",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-24T18:01:52Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/9f6cc73e006c2ebfa3550b3c1fdd01ca1967e705"
+    },
+    {
+      "sha": "d21c1f2d224d8cc6ad851d8224b59bb3a53689a4",
+      "message": "added color blocks tab",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-24T17:23:38Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/d21c1f2d224d8cc6ad851d8224b59bb3a53689a4"
+    },
+    {
+      "sha": "dbb8b21036b6be625e39190a1fef76e908d5df55",
+      "message": "fixed white,silver and gray texture on color blocks",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-08-24T16:28:53Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/dbb8b21036b6be625e39190a1fef76e908d5df55"
+    }
+  ],
+  "lastCommitsFetch": 1788187906946
+}

@@ -410,13 +410,13 @@ function saveDatabase(db: DatabaseSchema) {
 
 async function fetchGitHubCommits(db: DatabaseSchema): Promise<GitHubCommit[]> {
   const now = Date.now();
-  // Cache for 5 minutes
-  if (db.cachedCommits && db.cachedCommits.length > 0 && now - db.lastCommitsFetch < 5 * 60 * 1000) {
+  // Cache for 2 minutes for faster updates
+  if (db.cachedCommits && db.cachedCommits.length > 0 && now - db.lastCommitsFetch < 2 * 60 * 1000) {
     return db.cachedCommits;
   }
 
   try {
-    const response = await fetch('https://api.github.com/repos/wrxxnch/luanti-bettercraft/commits?per_page=25', {
+    const response = await fetch('https://api.github.com/repos/wrxxnch/luanti-bettercraft/commits?sha=main&per_page=30', {
       headers: {
         'User-Agent': 'Luanti-BetterCraft-App/1.0',
         'Accept': 'application/vnd.github.v3+json'
@@ -433,7 +433,7 @@ async function fetchGitHubCommits(db: DatabaseSchema): Promise<GitHubCommit[]> {
             name: item.commit?.author?.name || item.author?.login || 'Contribuidor',
             email: item.commit?.author?.email,
             date: item.commit?.author?.date || new Date().toISOString(),
-            avatar_url: item.author?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(item.commit?.author?.name || 'Dev')}&background=059669&color=fff`
+            avatar_url: item.author?.avatar_url || `https://avatars.githubusercontent.com/u/134978254?v=4`
           },
           html_url: item.html_url || `https://github.com/wrxxnch/luanti-bettercraft/commit/${item.sha}`
         }));

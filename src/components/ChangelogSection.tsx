@@ -37,7 +37,7 @@ export const ChangelogSection: React.FC<ChangelogSectionProps> = ({
               COMMITS DO GITHUB
             </h2>
             <p className="mt-1 text-xs sm:text-sm text-[#b4afc4]">
-              Acompanhe as atualizações de código em tempo real sincronizadas diretamente com a branch <strong className="text-[#55ffff] font-mono">main</strong> do repositório <strong className="text-[#55ffff] font-mono">wrxxnch/bettercraft</strong>.
+              Acompanhe as atualizações de código em tempo real sincronizadas diretamente com a branch <strong className="text-[#55ffff] font-mono">main</strong> do repositório <strong className="text-[#55ffff] font-mono">wrxxnch/luanti-bettercraft</strong>.
             </p>
           </div>
 
@@ -54,7 +54,7 @@ export const ChangelogSection: React.FC<ChangelogSectionProps> = ({
             </button>
 
             <a
-              href="https://github.com/wrxxnch/bettercraft/commits/main"
+              href="https://github.com/wrxxnch/luanti-bettercraft/commits/main/"
               target="_blank"
               rel="noopener noreferrer"
               className="mc-btn px-3.5 py-2 text-xs flex items-center gap-1.5 hover:text-white"
@@ -69,7 +69,7 @@ export const ChangelogSection: React.FC<ChangelogSectionProps> = ({
         <div className="p-3 mc-slot bg-[#171322] border-2 border-[#2b2438] flex items-center justify-between text-xs text-[#cfcbd9] mb-6 flex-wrap gap-2">
           <div className="flex items-center gap-2">
             <GitCommit className="w-4 h-4 text-[#55ff55]" />
-            <span>Repositório: <strong className="font-mono text-[#55ffff]">github.com/wrxxnch/bettercraft</strong></span>
+            <span>Repositório: <strong className="font-mono text-[#55ffff]">github.com/wrxxnch/luanti-bettercraft</strong> (branch <span className="text-[#55ff55]">main</span>)</span>
           </div>
           <span className="text-[11px] text-[#8e8999] font-mono">
             {commits.length} commits sincronizados
@@ -81,7 +81,7 @@ export const ChangelogSection: React.FC<ChangelogSectionProps> = ({
           <div className="p-12 text-center mc-panel bg-[#161220] border-2 border-[#332c42]">
             <RefreshCw className="w-8 h-8 animate-spin text-[#55ffff] mx-auto mb-3" />
             <p className="text-sm font-bold text-white font-minecraft">BUSCANDO COMMITS NO GITHUB...</p>
-            <p className="text-xs text-[#8e8999] mt-1">Conectando ao repositório wrxxnch/bettercraft</p>
+            <p className="text-xs text-[#8e8999] mt-1">Conectando ao repositório wrxxnch/luanti-bettercraft (main)</p>
           </div>
         ) : commits.length === 0 ? (
           <div className="p-12 text-center mc-panel bg-[#161220] border-2 border-[#332c42]">
