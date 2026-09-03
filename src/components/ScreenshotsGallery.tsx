@@ -15,7 +15,8 @@ import {
   Layers,
   Sparkles,
   Search,
-  RotateCcw
+  RotateCcw,
+  Wallpaper
 } from 'lucide-react';
 import { Screenshot } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -23,18 +24,22 @@ import { useAuth } from '../context/AuthContext';
 interface ScreenshotsGalleryProps {
   screenshots: Screenshot[];
   allowPublicScreenshots?: boolean;
+  currentWallpaperUrl?: string | null;
   onOpenAddScreenshot: () => void;
   onEditScreenshot: (screenshot: Screenshot) => void;
   onDeleteScreenshot: (id: string) => Promise<void>;
+  onSetAsWallpaper?: (screenshot: Screenshot) => void | Promise<void>;
   onOpenAdminLogin?: () => void;
 }
 
 export const ScreenshotsGallery: React.FC<ScreenshotsGalleryProps> = ({
   screenshots,
   allowPublicScreenshots = false,
+  currentWallpaperUrl,
   onOpenAddScreenshot,
   onEditScreenshot,
   onDeleteScreenshot,
+  onSetAsWallpaper,
   onOpenAdminLogin
 }) => {
   const { isAdmin, user } = useAuth();
@@ -262,6 +267,14 @@ export const ScreenshotsGallery: React.FC<ScreenshotsGalleryProps> = ({
                       </div>
                     )}
 
+                    {/* Active Wallpaper Badge */}
+                    {currentWallpaperUrl === item.imageUrl && (
+                      <div className="absolute bottom-2 left-2 px-2 py-0.5 mc-slot bg-[#122b16]/95 text-[#55ff55] border border-[#55ff55] text-[10px] font-bold uppercase flex items-center gap-1 shadow-md z-10">
+                        <Wallpaper className="w-3 h-3 text-[#55ff55]" />
+                        <span>Fundo Ativo</span>
+                      </div>
+                    )}
+
                     {/* View Fullscreen overlay button */}
                     <button
                       onClick={() => setLightboxImage(item)}
@@ -306,7 +319,31 @@ export const ScreenshotsGallery: React.FC<ScreenshotsGalleryProps> = ({
                     {item.author.split('@')[0]}
                   </span>
 
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                    {/* Admin Direct Set as Wallpaper Button */}
+                    {isAdmin && onSetAsWallpaper && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSetAsWallpaper(item);
+                        }}
+                        className={`mc-btn px-2 py-1 text-[10px] flex items-center gap-1 cursor-pointer font-bold transition-all active:scale-95 ${
+                          currentWallpaperUrl === item.imageUrl
+                            ? 'mc-btn-green text-white shadow-sm'
+                            : 'mc-btn-gold text-[#ffff55] hover:text-white'
+                        }`}
+                        title={
+                          currentWallpaperUrl === item.imageUrl
+                            ? 'Esta foto já está ativa no fundo da tela'
+                            : 'Colocar foto deste post como wallpaper de fundo imediatamente'
+                        }
+                      >
+                        <Wallpaper className="w-3 h-3" />
+                        <span>{currentWallpaperUrl === item.imageUrl ? 'Fundo Ativo' : 'Colocar Wallpaper'}</span>
+                      </button>
+                    )}
+
                     {/* Admin Edit Button */}
                     {isAdmin && (
                       <button
@@ -350,7 +387,7 @@ export const ScreenshotsGallery: React.FC<ScreenshotsGalleryProps> = ({
             className="relative max-w-5xl w-full mc-panel p-4 bg-[#14111c]"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-3 mb-3 border-b-2 border-[#332c42]">
+            <div className="flex items-center justify-between pb-3 mb-3 border-b-2 border-[#332c42] flex-wrap gap-2">
               <div>
                 <h3 className="text-base font-bold text-white mc-text-shadow">
                   {lightboxImage.title}
@@ -359,12 +396,30 @@ export const ScreenshotsGallery: React.FC<ScreenshotsGalleryProps> = ({
                   Categoria: {lightboxImage.category} • Autor: {lightboxImage.author}
                 </p>
               </div>
-              <button
-                onClick={() => setLightboxImage(null)}
-                className="mc-btn mc-btn-red px-2.5 py-1 text-xs cursor-pointer"
-              >
-                <X className="w-4 h-4" />
-              </button>
+              <div className="flex items-center gap-2">
+                {/* Admin Direct Set Wallpaper inside Lightbox Modal */}
+                {isAdmin && onSetAsWallpaper && (
+                  <button
+                    type="button"
+                    onClick={() => onSetAsWallpaper(lightboxImage)}
+                    className={`mc-btn px-3 py-1.5 text-xs flex items-center gap-1.5 cursor-pointer font-bold ${
+                      currentWallpaperUrl === lightboxImage.imageUrl
+                        ? 'mc-btn-green text-white'
+                        : 'mc-btn-gold text-[#ffff55] hover:text-white'
+                    }`}
+                    title="Definir foto como papel de parede de fundo"
+                  >
+                    <Wallpaper className="w-3.5 h-3.5" />
+                    <span>{currentWallpaperUrl === lightboxImage.imageUrl ? '✓ Fundo Ativo' : 'Colocar como Wallpaper'}</span>
+                  </button>
+                )}
+                <button
+                  onClick={() => setLightboxImage(null)}
+                  className="mc-btn mc-btn-red px-2.5 py-1 text-xs cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             <div className="relative aspect-video w-full mc-slot overflow-hidden bg-black">

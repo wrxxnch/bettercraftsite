@@ -39,7 +39,12 @@ export const Navbar: React.FC<NavbarProps> = ({
     setMobileMenuOpen(false);
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (window.history.pushState) {
+        window.history.pushState(null, '', `#${id}`);
+      } else {
+        window.location.hash = id;
+      }
     }
   };
 

@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     font-family: 'Pixelify Sans', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: #110e19;
@@ -10,6 +14,10 @@
       linear-gradient(180deg, #130f1c 0%, #1a1526 50%, #0d0a14 100%);
     background-size: 16px 16px, 100% 100%;
     image-rendering: pixelated;
+  }
+
+  section[id] {
+    scroll-margin-top: 5rem;
   }
 
   .font-minecraft {

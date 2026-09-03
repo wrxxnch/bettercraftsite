@@ -198,8 +198,13 @@ function MainContent() {
     const unsubscribe = firebaseApi.subscribeWallpapers((wps) => {
       setWallpapers(wps);
       if (wps.length > 0 && !currentWallpaperUrl) {
-        const randomWp = wps[Math.floor(Math.random() * wps.length)];
-        setCurrentWallpaperUrl(randomWp.url);
+        const savedUrl = typeof window !== 'undefined' ? localStorage.getItem('bettercraft_active_wallpaper') : null;
+        if (savedUrl) {
+          setCurrentWallpaperUrl(savedUrl);
+        } else {
+          const randomWp = wps[Math.floor(Math.random() * wps.length)];
+          setCurrentWallpaperUrl(randomWp.url);
+        }
       }
     });
     return () => {
@@ -210,6 +215,81 @@ function MainContent() {
   useEffect(() => {
     loadInitialData();
   }, [loadInitialData]);
+
+  // Handle URL hash tag navigation (e.g. #changelog, #galeria, #recursos, #instalacao, #ecossistema)
+  const scrollToCurrentHash = useCallback((retryCount = 0) => {
+    if (typeof window === 'undefined') return;
+    const rawHash = (window.location.hash || '').replace(/^#\/?/, '').toLowerCase().trim();
+    if (!rawHash) return;
+
+    // Admin hashes are handled by modals
+    if (rawHash === 'admin' || rawHash === 'login') return;
+
+    const aliasMap: Record<string, string> = {
+      changelog: 'changelog',
+      commits: 'changelog',
+      updates: 'changelog',
+      versoes: 'changelog',
+      historico: 'changelog',
+      novidades: 'changelog',
+      galeria: 'galeria',
+      gallery: 'galeria',
+      screenshots: 'galeria',
+      fotos: 'galeria',
+      capturas: 'galeria',
+      prints: 'galeria',
+      recursos: 'recursos',
+      features: 'recursos',
+      mecanicas: 'recursos',
+      sobre: 'recursos',
+      instalacao: 'instalacao',
+      instalar: 'instalacao',
+      install: 'instalacao',
+      download: 'instalacao',
+      downloads: 'instalacao',
+      jogar: 'instalacao',
+      guia: 'instalacao',
+      ecossistema: 'ecossistema',
+      ecosystem: 'ecossistema',
+      blockframe: 'ecossistema',
+      repos: 'ecossistema',
+      inicio: 'root',
+      top: 'root'
+    };
+
+    const targetId = aliasMap[rawHash] || rawHash;
+    const element = document.getElementById(targetId);
+
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (retryCount < 5) {
+      // Retry in case dynamic components/images are still mounting
+      setTimeout(() => {
+        scrollToCurrentHash(retryCount + 1);
+      }, 150);
+    }
+  }, []);
+
+  // Trigger scroll whenever isLoading changes to false or on initial mount
+  useEffect(() => {
+    if (!isLoading) {
+      const timer1 = setTimeout(() => scrollToCurrentHash(0), 100);
+      const timer2 = setTimeout(() => scrollToCurrentHash(0), 400);
+      return () => {
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+      };
+    }
+  }, [isLoading, scrollToCurrentHash]);
+
+  // Listen to hash changes in browser URL
+  useEffect(() => {
+    const handleHashChange = () => {
+      scrollToCurrentHash(0);
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [scrollToCurrentHash]);
 
   // Keyboard shortcut Ctrl+Shift+A or URL query/hash for Admin Panel / Login
   useEffect(() => {
@@ -383,7 +463,40 @@ function MainContent() {
 
   const handleSelectActiveWallpaper = (url: string) => {
     setCurrentWallpaperUrl(url);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('bettercraft_active_wallpaper', url);
+    }
     showToast('Wallpaper de fundo ativado no site!');
+  };
+
+  // Direct 1-Click Set Wallpaper from Gallery Posts (for Admins)
+  const handleSetWallpaperFromPost = async (screenshot: Screenshot) => {
+    if (!user) {
+      setAdminLoginOpen(true);
+      return;
+    }
+    try {
+      const exists = wallpapers.some(w => w.url === screenshot.imageUrl);
+      if (!exists) {
+        await firebaseApi.addWallpaper({
+          url: screenshot.imageUrl,
+          title: `Captura: ${screenshot.title}`,
+          addedBy: user.email || 'Admin'
+        });
+      }
+      setCurrentWallpaperUrl(screenshot.imageUrl);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('bettercraft_active_wallpaper', screenshot.imageUrl);
+      }
+      showToast(`Fundo alterado para a captura: "${screenshot.title}"!`);
+      await refreshLogs();
+    } catch (err: any) {
+      setCurrentWallpaperUrl(screenshot.imageUrl);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('bettercraft_active_wallpaper', screenshot.imageUrl);
+      }
+      showToast('Wallpaper de fundo ativado no site!');
+    }
   };
 
   const handleRefreshCommits = async () => {
@@ -462,6 +575,8 @@ function MainContent() {
         <ScreenshotsGallery 
           screenshots={screenshots}
           allowPublicScreenshots={gameInfo.allowPublicScreenshots}
+          currentWallpaperUrl={currentWallpaperUrl}
+          onSetAsWallpaper={handleSetWallpaperFromPost}
           onOpenAddScreenshot={() => {
             setEditingScreenshot(null);
             setAddScreenshotOpen(true);

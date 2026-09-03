@@ -649,6 +649,22 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                       </span>
                       
                       <div className="flex items-center gap-1.5">
+                        {/* Direct set as wallpaper button */}
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            await handleQuickAddFromScreenshot(s);
+                            onSelectActiveWallpaper(s.imageUrl);
+                          }}
+                          className={`mc-btn px-2 py-1 text-[10px] flex items-center gap-1 cursor-pointer font-bold ${
+                            currentWallpaperUrl === s.imageUrl ? 'mc-btn-green text-white' : 'mc-btn-gold text-[#ffff55] hover:text-white'
+                          }`}
+                          title="Definir foto como papel de parede de fundo"
+                        >
+                          <Wallpaper className="w-3 h-3" />
+                          <span>{currentWallpaperUrl === s.imageUrl ? 'Fundo Ativo' : 'Usar Fundo'}</span>
+                        </button>
+
                         {/* Edit post button */}
                         <button
                           onClick={() => {
