@@ -104,8 +104,8 @@ export const ScreenshotsGallery: React.FC<ScreenshotsGalleryProps> = ({
           </div>
 
           {/* Action Button: Visible for Admins OR if Public Posting is Enabled */}
-          <div className="flex items-center gap-2 self-start md:self-auto">
-            {canPost ? (
+          {canPost && (
+            <div className="flex items-center gap-2 self-start md:self-auto">
               <button
                 onClick={onOpenAddScreenshot}
                 id="gallery-btn-add-screenshot"
@@ -114,16 +114,8 @@ export const ScreenshotsGallery: React.FC<ScreenshotsGalleryProps> = ({
                 <Plus className="w-4 h-4 stroke-[3]" />
                 <span>{isAdmin ? 'PUBLICAR FOTO (ADMIN)' : 'ENVIAR MINHA FOTO'}</span>
               </button>
-            ) : (
-              <button
-                onClick={onOpenAdminLogin}
-                className="mc-btn bg-[#201c2b] text-[#8e8999] hover:text-white px-3.5 py-2 text-xs flex items-center gap-2 cursor-pointer border-[#372f47]"
-                title="Postagem restrita a administradores. Clique para fazer login."
-              >
-                <span className="text-[11px]">🔒 Envio restrito a Admins</span>
-              </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Search & Category Filter Controls */}

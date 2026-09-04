@@ -1,12 +1,12 @@
 {
-  "projectId": "snappy-cache-5f6jr",
-  "appId": "1:1011811279139:web:8bf1796cbf2e09872eec96",
-  "apiKey": "AIzaSyAGTL6naPkwbSwfgeGqtTQnAepGo-nFziQ",
-  "authDomain": "snappy-cache-5f6jr.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-luantibettercraf-96d2ede1-cd92-47d1-9ed0-406a923738c7",
-  "storageBucket": "snappy-cache-5f6jr.firebasestorage.app",
-  "messagingSenderId": "1011811279139",
-  "measurementId": "",
-  "oAuthClientId": "1011811279139-1kfpmhp6khe5137fnomo6iipqvokg6pp.apps.googleusercontent.com",
+  "projectId": "bettercraftsite-ed341",
+  "appId": "1:363216850132:web:01645e6ccaa73c300cbf41",
+  "apiKey": "AIzaSyDFCQpU5HXpsbs4ZAe3wFyePfhndj2myas",
+  "authDomain": "bettercraftsite-ed341.firebaseapp.com",
+  "firestoreDatabaseId": "",
+  "storageBucket": "bettercraftsite-ed341.firebasestorage.app",
+  "messagingSenderId": "363216850132",
+  "measurementId": "G-2K8ZPVMG07",
+  "oAuthClientId": "",
   "recaptchaSiteKey": ""
 }

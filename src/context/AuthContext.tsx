@@ -132,7 +132,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     } catch (err: any) {
       console.error('Google Sign-In Error:', err);
-      setError(err.message || 'Erro ao efetuar login com Google.');
+      if (err.code === 'auth/operation-not-allowed') {
+        setError('O provedor de login Google não está ativado no Firebase Authentication. Ative-o em Firebase Console > Authentication > Sign-in method > Google.');
+      } else if (err.code === 'auth/unauthorized-domain') {
+        setError('Este domínio não está autorizado no Firebase. Adicione "run.app" e o domínio do site em Firebase Console > Authentication > Settings > Authorized domains.');
+      } else if (err.code === 'auth/popup-blocked') {
+        setError('O navegador bloqueou o popup de login. Por favor, permita popups para este site ou abra o preview em uma nova aba.');
+      } else if (err.code === 'auth/popup-closed-by-user') {
+        setError('A janela de login com Google foi fechada antes da conclusão.');
+      } else {
+        setError(err.message || 'Erro ao efetuar login com Google.');
+      }
       return false;
     }
   };
