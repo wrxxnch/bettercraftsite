@@ -82,17 +82,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setUser(null);
         }
       } else {
-        // Fallback for session/local dev test
-        const savedEmail = localStorage.getItem(STORAGE_KEY) || PRIMARY_OWNER_EMAIL;
-        const matched = list.find(a => a.email.toLowerCase() === savedEmail.toLowerCase());
-        if (matched) {
-          setUser(matched);
-        } else {
-          const owner = list.find(a => a.email.toLowerCase() === PRIMARY_OWNER_EMAIL);
-          if (owner) {
-            setUser(owner);
-          }
-        }
+        // Not authenticated via Firebase: regular visitor, no admin privileges
+        setUser(null);
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch (_) {}
       }
 
       if (isMounted) {
@@ -128,9 +122,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           avatarUrl: result.user.photoURL || undefined
         };
         setUser(activeUser);
-        localStorage.setItem(STORAGE_KEY, activeUser.email);
         return true;
       } else {
+        await signOut(auth);
+        setUser(null);
+        setFirebaseUser(null);
         setError(`A conta Google (${email}) não possui permissão de administrador no Luanti BetterCraft.`);
         return false;
       }
@@ -159,7 +155,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           isProtected: true
         };
         setUser(activeUser);
-        localStorage.setItem(STORAGE_KEY, activeUser.email);
         return true;
       } else {
         setError('E-mail não autorizado como administrador.');
@@ -179,7 +174,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     setUser(null);
     setFirebaseUser(null);
-    localStorage.removeItem(STORAGE_KEY);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (_) {}
   };
 
   const refreshAdmins = async () => {
