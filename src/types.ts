@@ -25,6 +25,13 @@ export interface Screenshot {
   title: string;
   description: string;
   imageUrl: string;
+  mediaType?: 'image' | 'video';
+  videoUrl?: string;
+  startTime?: number; // In seconds (trim in)
+  endTime?: number;   // In seconds (trim out)
+  isMuted?: boolean;  // Tirar som / silenciado
+  defaultVolume?: number; // 0 to 1
+  duration?: number;
   category: ScreenshotCategory;
   author: string;
   createdAt: string;
@@ -127,6 +134,23 @@ export interface SplashConfig {
   prioritySplashes: string;
   normalSplashes: string;
   updatedAt?: string;
+}
+
+export interface TutorialVideo {
+  id: string;
+  title: string;
+  description?: string;
+  videoUrl: string;
+  videoType: 'direct' | 'youtube' | 'upload';
+  platform?: 'all' | 'windows' | 'linux' | 'android' | 'macos';
+  startTime: number; // In seconds (trim in)
+  endTime: number;   // In seconds (trim out, 0 or positive)
+  isMuted: boolean;  // Sound stripped or muted by default
+  defaultVolume?: number; // 0 to 1
+  duration?: number; // Original total duration in seconds
+  author?: string;
+  createdAt: string;
+  active?: boolean;
 }
 
 export interface AuditLog {

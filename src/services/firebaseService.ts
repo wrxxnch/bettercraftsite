@@ -12,12 +12,32 @@ import {
   onSnapshot 
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
-import { Screenshot, AdminUser, GameInfo, GitHubCommit, WallpaperItem, SplashConfig } from '../types';
+import { Screenshot, AdminUser, GameInfo, GitHubCommit, WallpaperItem, SplashConfig, TutorialVideo } from '../types';
 
 const SCREENSHOTS_COLLECTION = 'screenshots';
 const ADMINS_COLLECTION = 'admins';
 const SETTINGS_COLLECTION = 'settings';
 const WALLPAPERS_COLLECTION = 'wallpapers';
+const TUTORIALS_COLLECTION = 'tutorials';
+
+export const DEFAULT_TUTORIALS: TutorialVideo[] = [
+  {
+    id: 'tutorial-instalacao-guia',
+    title: 'Como Instalar BetterCraft no Motor Luanti',
+    description: 'Guia visual completo: do download do arquivo ZIP até a extração correta na pasta games/ do Luanti.',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    videoType: 'direct',
+    platform: 'all',
+    startTime: 2,
+    endTime: 14,
+    isMuted: false,
+    defaultVolume: 0.8,
+    duration: 15,
+    author: 'Equipe Luanti BetterCraft',
+    createdAt: new Date().toISOString(),
+    active: true
+  }
+];
 
 export const DEFAULT_SPLASHES: SplashConfig = {
   prioritySplashes: [
@@ -66,6 +86,13 @@ export const firebaseApi = {
           title: data.title || '',
           description: data.description || '',
           imageUrl: data.imageUrl || '',
+          mediaType: data.mediaType || (data.videoUrl ? 'video' : 'image'),
+          videoUrl: data.videoUrl || undefined,
+          startTime: typeof data.startTime === 'number' ? data.startTime : undefined,
+          endTime: typeof data.endTime === 'number' ? data.endTime : undefined,
+          isMuted: data.isMuted !== undefined ? Boolean(data.isMuted) : undefined,
+          defaultVolume: typeof data.defaultVolume === 'number' ? data.defaultVolume : undefined,
+          duration: typeof data.duration === 'number' ? data.duration : undefined,
           category: data.category || 'Biomas',
           author: data.author || 'Anônimo',
           createdAt: data.createdAt || new Date().toISOString(),
@@ -92,6 +119,13 @@ export const firebaseApi = {
           title: data.title || '',
           description: data.description || '',
           imageUrl: data.imageUrl || '',
+          mediaType: data.mediaType || (data.videoUrl ? 'video' : 'image'),
+          videoUrl: data.videoUrl || undefined,
+          startTime: typeof data.startTime === 'number' ? data.startTime : undefined,
+          endTime: typeof data.endTime === 'number' ? data.endTime : undefined,
+          isMuted: data.isMuted !== undefined ? Boolean(data.isMuted) : undefined,
+          defaultVolume: typeof data.defaultVolume === 'number' ? data.defaultVolume : undefined,
+          duration: typeof data.duration === 'number' ? data.duration : undefined,
           category: data.category || 'Biomas',
           author: data.author || 'Anônimo',
           createdAt: data.createdAt || new Date().toISOString(),
@@ -118,6 +152,13 @@ export const firebaseApi = {
       title: screenshot.title.trim(),
       description: screenshot.description?.trim() || '',
       imageUrl: screenshot.imageUrl.trim(),
+      mediaType: screenshot.mediaType || (screenshot.videoUrl ? 'video' : 'image'),
+      videoUrl: screenshot.videoUrl?.trim() || null,
+      startTime: typeof screenshot.startTime === 'number' ? screenshot.startTime : 0,
+      endTime: typeof screenshot.endTime === 'number' ? screenshot.endTime : 0,
+      isMuted: Boolean(screenshot.isMuted),
+      defaultVolume: typeof screenshot.defaultVolume === 'number' ? screenshot.defaultVolume : 0.8,
+      duration: typeof screenshot.duration === 'number' ? screenshot.duration : 0,
       category: screenshot.category || 'Biomas',
       author: screenshot.authorEmail || screenshot.authorName?.trim() || 'Jogador da Comunidade',
       authorUid: screenshot.authorUid || null,
@@ -357,6 +398,105 @@ export const firebaseApi = {
     }, (err) => {
       console.warn('Wallpapers listener error:', err);
       callback([]);
+    });
+  },
+
+  // Tutorials Management
+  async getTutorials(): Promise<TutorialVideo[]> {
+    try {
+      const snap = await getDocs(collection(db, TUTORIALS_COLLECTION));
+      if (snap.empty) {
+        return DEFAULT_TUTORIALS;
+      }
+      const list: TutorialVideo[] = [];
+      snap.forEach((d) => {
+        const data = d.data();
+        list.push({
+          id: d.id,
+          title: data.title || 'Vídeo Tutorial',
+          description: data.description || '',
+          videoUrl: data.videoUrl,
+          videoType: data.videoType || 'direct',
+          platform: data.platform || 'all',
+          startTime: typeof data.startTime === 'number' ? data.startTime : 0,
+          endTime: typeof data.endTime === 'number' ? data.endTime : 0,
+          isMuted: !!data.isMuted,
+          defaultVolume: typeof data.defaultVolume === 'number' ? data.defaultVolume : 0.8,
+          duration: data.duration,
+          author: data.author || 'Admin',
+          createdAt: data.createdAt || new Date().toISOString(),
+          active: data.active !== false
+        });
+      });
+      return list.length > 0 ? list : DEFAULT_TUTORIALS;
+    } catch (e) {
+      console.warn('Error fetching tutorials from Firebase, using defaults:', e);
+      return DEFAULT_TUTORIALS;
+    }
+  },
+
+  async addTutorial(tutorial: Omit<TutorialVideo, 'id'>): Promise<TutorialVideo> {
+    const clean = removeUndefinedFields({
+      title: tutorial.title,
+      description: tutorial.description || '',
+      videoUrl: tutorial.videoUrl,
+      videoType: tutorial.videoType || 'direct',
+      platform: tutorial.platform || 'all',
+      startTime: tutorial.startTime || 0,
+      endTime: tutorial.endTime || 0,
+      isMuted: !!tutorial.isMuted,
+      defaultVolume: tutorial.defaultVolume ?? 0.8,
+      duration: tutorial.duration || 0,
+      author: tutorial.author || 'Admin',
+      createdAt: new Date().toISOString(),
+      active: tutorial.active !== false
+    });
+    const docRef = await addDoc(collection(db, TUTORIALS_COLLECTION), clean);
+    return {
+      id: docRef.id,
+      ...clean
+    } as TutorialVideo;
+  },
+
+  async updateTutorial(id: string, tutorial: Partial<TutorialVideo>): Promise<void> {
+    const clean = removeUndefinedFields(tutorial);
+    await updateDoc(doc(db, TUTORIALS_COLLECTION, id), clean);
+  },
+
+  async deleteTutorial(id: string): Promise<void> {
+    await deleteDoc(doc(db, TUTORIALS_COLLECTION, id));
+  },
+
+  subscribeTutorials(callback: (tutorials: TutorialVideo[]) => void) {
+    return onSnapshot(collection(db, TUTORIALS_COLLECTION), (snapshot) => {
+      if (snapshot.empty) {
+        callback(DEFAULT_TUTORIALS);
+        return;
+      }
+      const list: TutorialVideo[] = [];
+      snapshot.forEach((d) => {
+        const data = d.data();
+        list.push({
+          id: d.id,
+          title: data.title || 'Vídeo Tutorial',
+          description: data.description || '',
+          videoUrl: data.videoUrl,
+          videoType: data.videoType || 'direct',
+          platform: data.platform || 'all',
+          startTime: typeof data.startTime === 'number' ? data.startTime : 0,
+          endTime: typeof data.endTime === 'number' ? data.endTime : 0,
+          isMuted: !!data.isMuted,
+          defaultVolume: typeof data.defaultVolume === 'number' ? data.defaultVolume : 0.8,
+          duration: data.duration,
+          author: data.author || 'Admin',
+          createdAt: data.createdAt || new Date().toISOString(),
+          active: data.active !== false
+        });
+      });
+      callback(list.length > 0 ? list : DEFAULT_TUTORIALS);
+    }, (err) => {
+      console.warn('Tutorials listener error, using defaults:', err);
+      callback(DEFAULT_TUTORIALS);
     });
   }
 };

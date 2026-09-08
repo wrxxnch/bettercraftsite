@@ -582,9 +582,24 @@ async function startServer() {
       });
     }
 
-    const { title, description, imageUrl, category, tags, featured, authorName } = req.body;
-    if (!title || !imageUrl) {
-      return res.status(400).json({ success: false, error: 'Título e imagem são obrigatórios.' });
+    const { 
+      title, 
+      description, 
+      imageUrl, 
+      mediaType, 
+      videoUrl, 
+      startTime, 
+      endTime, 
+      isMuted, 
+      defaultVolume, 
+      duration, 
+      category, 
+      tags, 
+      featured, 
+      authorName 
+    } = req.body;
+    if (!title || (!imageUrl && !videoUrl)) {
+      return res.status(400).json({ success: false, error: 'Título e imagem ou vídeo são obrigatórios.' });
     }
 
     const author = admin 
@@ -595,7 +610,14 @@ async function startServer() {
       id: `screen-${Date.now()}`,
       title: title.trim(),
       description: description?.trim() || '',
-      imageUrl: imageUrl.trim(),
+      imageUrl: (imageUrl || videoUrl || '').trim(),
+      mediaType: mediaType || (videoUrl ? 'video' : 'image'),
+      videoUrl: videoUrl ? videoUrl.trim() : undefined,
+      startTime: typeof startTime === 'number' ? startTime : 0,
+      endTime: typeof endTime === 'number' ? endTime : 0,
+      isMuted: Boolean(isMuted),
+      defaultVolume: typeof defaultVolume === 'number' ? defaultVolume : 0.8,
+      duration: typeof duration === 'number' ? duration : 0,
       category: category || 'Biomas',
       author,
       createdAt: new Date().toISOString(),

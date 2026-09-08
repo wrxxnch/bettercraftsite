@@ -26,7 +26,11 @@ import {
   Wallpaper,
   MessageSquare,
   Shuffle,
-  LogOut
+  LogOut,
+  Video,
+  Scissors,
+  Volume2,
+  VolumeX
 } from 'lucide-react';
 import { 
   AdminUser, 
@@ -39,6 +43,7 @@ import {
 } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { compressImageForFirebase } from '../lib/imageCompressor';
+import { formatTime } from './PostVideoPlayer';
 
 interface AdminPanelModalProps {
   isOpen: boolean;
@@ -93,7 +98,11 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
   onSaveSplashes,
   onAddWallpaper,
   onDeleteWallpaper,
-  onSelectActiveWallpaper
+  onSelectActiveWallpaper,
+  tutorials = [],
+  onOpenAddTutorial,
+  onEditTutorial,
+  onDeleteTutorial
 }) => {
   const { user, isSuperAdmin, logout } = useAuth();
   const [activeTab, setActiveTab] = useState<AdminTab>('admins');
@@ -373,7 +382,7 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                 : 'mc-btn bg-[#1d1829] text-[#b4afc4] border-[#372f47]'
             }`}
           >
-            Gerenciar Fotos ({screenshots.length})
+            Gerenciar Posts ({screenshots.length})
           </button>
 
           <button
@@ -1127,6 +1136,121 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                   </div>
                 )}
               </div>
+            </div>
+          )}
+
+          {/* TAB: TUTORIALS & VIDEOS MANAGEMENT */}
+          {activeTab === 'tutorials' && (
+            <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                  <h3 className="text-sm font-bold text-white uppercase font-minecraft">
+                    VÍDEOS TUTORIAIS & GAMEPLAY
+                  </h3>
+                  <p className="text-xs text-[#b4afc4]">
+                    Gerencie vídeos tutoriais com suporte a cortes precisos de início/fim (Trim) e controle de áudio (tirar ou colocar som).
+                  </p>
+                </div>
+                {onOpenAddTutorial && (
+                  <button
+                    type="button"
+                    onClick={onOpenAddTutorial}
+                    className="mc-btn mc-btn-green px-3.5 py-2 text-xs flex items-center gap-1.5 cursor-pointer font-bold"
+                  >
+                    <Plus className="w-3.5 h-3.5 stroke-[3]" />
+                    <span>ADICIONAR NOVO VÍDEO</span>
+                  </button>
+                )}
+              </div>
+
+              {tutorials.length === 0 ? (
+                <div className="text-center py-12 mc-panel border-dashed border-[#3d334e] text-[#8e8999]">
+                  <Video className="w-10 h-10 mx-auto mb-2 opacity-50 text-[#55ffff]" />
+                  <p className="text-sm">Nenhum vídeo tutorial cadastrado ainda.</p>
+                  <p className="text-xs mt-1">Clique no botão acima para adicionar um tutorial com corte e áudio configurados.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {tutorials.map((tut) => (
+                    <div key={tut.id} className="mc-panel p-4 bg-[#14111d] border-2 border-[#2f283d] space-y-3 flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <span className="text-[10px] font-bold px-2 py-0.5 mc-slot text-[#55ffff] uppercase">
+                            {tut.platform || 'Todos'}
+                          </span>
+                          <span className="text-[10px] font-mono text-[#8e8999]">
+                            {new Date(tut.createdAt).toLocaleDateString('pt-BR')}
+                          </span>
+                        </div>
+
+                        <h4 className="text-sm font-bold text-white mb-1.5">
+                          {tut.title}
+                        </h4>
+
+                        {tut.description && (
+                          <p className="text-xs text-[#b4afc4] line-clamp-2 mb-2">
+                            {tut.description}
+                          </p>
+                        )}
+
+                        {/* Badges for Trim and Audio */}
+                        <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-[#262033] text-[11px] font-mono">
+                          {tut.startTime > 0 || (tut.endTime && tut.endTime > 0) ? (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#251d38] border border-[#ffaa00] text-[#ffaa00]">
+                              <Scissors className="w-3 h-3" />
+                              <span>Corte: {formatTime(tut.startTime)} - {formatTime(tut.endTime)}</span>
+                            </span>
+                          ) : (
+                            <span className="text-[#8e8999]">Sem corte (Vídeo completo)</span>
+                          )}
+
+                          {tut.isMuted ? (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#20151f] border border-[#ff5555] text-[#ff8888]">
+                              <VolumeX className="w-3 h-3" />
+                              <span>Silenciado / Mudo</span>
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#14231b] border border-[#55ff55] text-[#55ff55]">
+                              <Volume2 className="w-3 h-3" />
+                              <span>Com Som</span>
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Card Actions */}
+                      <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#262033]">
+                        {onEditTutorial && (
+                          <button
+                            type="button"
+                            onClick={() => onEditTutorial(tut)}
+                            className="mc-btn bg-[#241c33] text-[#55ffff] hover:text-white px-2.5 py-1 text-xs flex items-center gap-1 cursor-pointer"
+                            title="Editar vídeo, corte e som"
+                          >
+                            <Scissors className="w-3 h-3" />
+                            <span>Editar / Cortar</span>
+                          </button>
+                        )}
+
+                        {onDeleteTutorial && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (confirm(`Excluir o tutorial "${tut.title}"?`)) {
+                                onDeleteTutorial(tut.id);
+                              }
+                            }}
+                            className="mc-btn bg-[#2b161c] text-[#ff5555] hover:text-white px-2 py-1 text-xs flex items-center cursor-pointer"
+                            title="Excluir tutorial"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 

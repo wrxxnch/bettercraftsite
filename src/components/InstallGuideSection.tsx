@@ -8,9 +8,6 @@ import {
   Smartphone, 
   Monitor, 
   HardDrive, 
-  Cpu, 
-  CheckCircle,
-  HelpCircle,
   FolderOpen
 } from 'lucide-react';
 import { GameInfo } from '../types';
@@ -21,7 +18,9 @@ interface InstallGuideSectionProps {
 
 type PlatformTab = 'windows' | 'linux' | 'android' | 'macos';
 
-export const InstallGuideSection: React.FC<InstallGuideSectionProps> = ({ gameInfo }) => {
+export const InstallGuideSection: React.FC<InstallGuideSectionProps> = ({ 
+  gameInfo
+}) => {
   const [activePlatform, setActivePlatform] = useState<PlatformTab>('windows');
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
@@ -38,16 +37,16 @@ export const InstallGuideSection: React.FC<InstallGuideSectionProps> = ({ gameIn
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 mc-slot text-xs font-bold text-[#ffff55] mb-2 uppercase">
             <Download className="w-3.5 h-3.5" />
-            <span>GUIA DE INSTALAÇÃO RÁPIDA</span>
+            <span>GUIA DE INSTALAÇÃO RÁPIDO</span>
           </div>
           <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-wide mc-title-shadow uppercase font-minecraft">
             COMO BAIXAR E JOGAR O BETTERCRAFT
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-[#b4afc4]">
-            BetterCraft funciona como um jogo completo sobre o motor Luanti (antigo Minetest). Siga os passos rápidos abaixo.
+            BetterCraft funciona como um jogo completo sobre o motor Luanti (antigo Minetest). Siga os passos rápidos abaixo para sua plataforma.
           </p>
         </div>
 
