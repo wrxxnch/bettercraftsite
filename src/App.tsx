@@ -336,12 +336,19 @@ function MainContent() {
         title: data.title,
         description: data.description,
         imageUrl: data.imageUrl,
+        mediaType: data.mediaType,
+        videoUrl: data.videoUrl,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        isMuted: data.isMuted,
+        defaultVolume: data.defaultVolume,
+        duration: data.duration,
         category: data.category,
         tags: data.tags,
         featured: data.featured,
         ...(data.authorName ? { authorName: data.authorName } : {})
       });
-      showToast(`Captura "${data.title}" atualizada no Firebase!`);
+      showToast(`Post "${data.title}" atualizado no Firebase!`);
       setEditingScreenshot(null);
     } else {
       // Create new post in Firestore
@@ -351,7 +358,7 @@ function MainContent() {
         authorUid: firebaseUser?.uid || undefined,
         authorName: data.authorName || user?.name
       });
-      showToast(`Captura "${created.title}" salva no Firebase!`);
+      showToast(`Post "${created.title}" salvo no Firebase!`);
     }
     await refreshLogs();
   };

@@ -284,6 +284,7 @@ export const ScreenshotsGallery: React.FC<ScreenshotsGalleryProps> = ({
                           isMutedDefault={item.isMuted !== undefined ? item.isMuted : true}
                           defaultVolume={item.defaultVolume ?? 0.8}
                           isCompact={true}
+                          showAdminDetails={isAdmin}
                           onExpand={() => setLightboxItem(item)}
                         />
                       ) : (
@@ -344,7 +345,7 @@ export const ScreenshotsGallery: React.FC<ScreenshotsGalleryProps> = ({
                       </h3>
                       {isVideo && (
                         <span className="text-[10px] font-mono px-1.5 py-0.5 bg-[#201530] text-[#ff88ff] border border-[#5b2b80] flex-shrink-0">
-                          {item.startTime ? `Trim: ${formatTime(item.startTime)}` : 'Clipe'}
+                          {isAdmin && item.startTime ? `Trim: ${formatTime(item.startTime)}` : 'Clipe'}
                         </span>
                       )}
                     </div>
@@ -509,6 +510,7 @@ export const ScreenshotsGallery: React.FC<ScreenshotsGalleryProps> = ({
                   defaultVolume={lightboxItem.defaultVolume ?? 0.8}
                   autoPlayInline={true}
                   isCompact={false}
+                  showAdminDetails={isAdmin}
                 />
               ) : (
                 <img

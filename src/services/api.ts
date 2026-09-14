@@ -37,15 +37,15 @@ class ApiService {
     return json.data;
   }
 
-  // Image Upload
-  async uploadImage(fileBase64: string, adminEmail?: string, originalName?: string): Promise<{ url: string; filename: string }> {
+  // Media Upload (Image or Video)
+  async uploadImage(fileBase64: string, adminEmail?: string, originalName?: string, mimeType?: string): Promise<{ url: string; filename: string; isVideo?: boolean }> {
     const res = await fetch('/api/upload', {
       method: 'POST',
       headers: this.getHeaders(adminEmail),
-      body: JSON.stringify({ fileBase64, originalName })
+      body: JSON.stringify({ fileBase64, originalName, mimeType })
     });
     const json = await res.json();
-    if (!json.success) throw new Error(json.error || 'Erro ao fazer upload da imagem');
+    if (!json.success) throw new Error(json.error || 'Erro ao fazer upload do arquivo');
     return json;
   }
 

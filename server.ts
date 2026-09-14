@@ -457,10 +457,10 @@ async function startServer() {
   const app = express();
   let db = loadDatabase();
 
-  app.use(express.json({ limit: '25mb' }));
-  app.use(express.urlencoded({ extended: true, limit: '25mb' }));
+  app.use(express.json({ limit: '100mb' }));
+  app.use(express.urlencoded({ extended: true, limit: '100mb' }));
 
-  // Serve static uploads directory for photos
+  // Serve static uploads directory for photos and videos
   app.use('/uploads', express.static(UPLOADS_DIR));
 
   // Helper to log actions
@@ -482,7 +482,7 @@ async function startServer() {
 
   // --- API Routes ---
 
-  // 0. File Upload (Photo Upload API)
+  // 0. File Upload (Photo & Video Upload API)
   app.post('/api/upload', (req, res) => {
     try {
       const userEmail = req.headers['x-admin-email'] as string;
@@ -493,52 +493,82 @@ async function startServer() {
       if (!canUpload) {
         return res.status(403).json({ 
           success: false, 
-          error: 'Upload de foto restrito a administradores. Para habilitar envio público, altere a configuração no painel.' 
+          error: 'Upload restrito a administradores. Para habilitar envio público, altere a configuração no painel.' 
         });
       }
 
-      const { fileBase64, originalName } = req.body;
+      const { fileBase64, originalName, mimeType } = req.body;
       if (!fileBase64 || typeof fileBase64 !== 'string') {
-        return res.status(400).json({ success: false, error: 'Nenhum dado de imagem válido fornecido.' });
+        return res.status(400).json({ success: false, error: 'Nenhum dado de arquivo válido fornecido.' });
       }
 
-      const matches = fileBase64.match(/^data:image\/([a-zA-Z0-9+.-]+);base64,(.+)$/);
+      // Check if it's image or video dataUrl or raw base64
+      const imageMatch = fileBase64.match(/^data:image\/([a-zA-Z0-9+.-]+);base64,(.+)$/);
+      const videoMatch = fileBase64.match(/^data:video\/([a-zA-Z0-9+.-]+);base64,(.+)$/);
+      
       let ext = 'png';
       let dataBuffer: Buffer;
+      let isVideo = false;
 
-      if (matches) {
-        const rawExt = matches[1].toLowerCase();
+      if (imageMatch) {
+        const rawExt = imageMatch[1].toLowerCase();
         ext = rawExt === 'jpeg' ? 'jpg' : rawExt.replace('+xml', '');
-        dataBuffer = Buffer.from(matches[2], 'base64');
+        dataBuffer = Buffer.from(imageMatch[2], 'base64');
+      } else if (videoMatch) {
+        isVideo = true;
+        const rawExt = videoMatch[1].toLowerCase();
+        ext = ['mp4', 'webm', 'ogg', 'mov', 'quicktime'].includes(rawExt) 
+          ? (rawExt === 'quicktime' ? 'mov' : rawExt)
+          : 'mp4';
+        dataBuffer = Buffer.from(videoMatch[2], 'base64');
       } else {
+        // Fallback: raw base64
         dataBuffer = Buffer.from(fileBase64, 'base64');
+        if (mimeType?.startsWith('video/') || originalName?.match(/\.(mp4|webm|ogg|mov)$/i)) {
+          isVideo = true;
+          const extMatch = originalName?.match(/\.([a-zA-Z0-9]+)$/);
+          ext = extMatch ? extMatch[1].toLowerCase() : 'mp4';
+        } else {
+          const extMatch = originalName?.match(/\.([a-zA-Z0-9]+)$/);
+          ext = extMatch ? extMatch[1].toLowerCase() : 'png';
+        }
       }
 
-      if (!['png', 'jpg', 'jpeg', 'webp', 'gif'].includes(ext)) {
-        ext = 'png';
+      const allowedImageExts = ['png', 'jpg', 'jpeg', 'webp', 'gif'];
+      const allowedVideoExts = ['mp4', 'webm', 'ogg', 'mov'];
+
+      if (isVideo) {
+        if (!allowedVideoExts.includes(ext)) ext = 'mp4';
+        // Limit: 50MB for video files
+        if (dataBuffer.length > 50 * 1024 * 1024) {
+          return res.status(400).json({ success: false, error: 'Arquivo de vídeo muito grande. Limite máximo: 50MB.' });
+        }
+      } else {
+        if (!allowedImageExts.includes(ext)) ext = 'png';
+        // Limit: 15MB for images
+        if (dataBuffer.length > 15 * 1024 * 1024) {
+          return res.status(400).json({ success: false, error: 'Arquivo de imagem muito grande. Limite máximo: 15MB.' });
+        }
       }
 
-      // Max size limit: 10MB
-      if (dataBuffer.length > 10 * 1024 * 1024) {
-        return res.status(400).json({ success: false, error: 'Arquivo de imagem muito grande. Limite máximo: 10MB.' });
-      }
-
-      const uniqueFilename = `craft-${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`;
+      const prefix = isVideo ? 'craft-video' : 'craft';
+      const uniqueFilename = `${prefix}-${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`;
       const targetFilePath = path.join(UPLOADS_DIR, uniqueFilename);
       fs.writeFileSync(targetFilePath, dataBuffer);
 
       const uploadedUrl = `/uploads/${uniqueFilename}`;
-      recordLog(userEmail || 'Comunidade', 'Upload de Imagem Realizado', `Arquivo salvo: ${uniqueFilename}`);
+      recordLog(userEmail || 'Comunidade', isVideo ? 'Upload de Vídeo Realizado' : 'Upload de Imagem Realizado', `Arquivo salvo: ${uniqueFilename}`);
 
       res.json({
         success: true,
         url: uploadedUrl,
         filename: uniqueFilename,
-        size: dataBuffer.length
+        size: dataBuffer.length,
+        isVideo
       });
     } catch (err: any) {
       console.error('Error handling upload:', err);
-      res.status(500).json({ success: false, error: 'Falha interna ao salvar imagem enviada.' });
+      res.status(500).json({ success: false, error: 'Falha interna ao salvar arquivo enviado.' });
     }
   });
 

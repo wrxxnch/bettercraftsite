@@ -20,6 +20,7 @@ interface PostVideoPlayerProps {
   autoPlayInline?: boolean;
   onExpand?: () => void;
   isCompact?: boolean; // for gallery card vs lightbox
+  showAdminDetails?: boolean; // only show trim time & sound status tag if admin
 }
 
 export function extractYouTubeId(url: string): string | null {
@@ -46,7 +47,8 @@ export const PostVideoPlayer: React.FC<PostVideoPlayerProps> = ({
   defaultVolume = 0.8,
   autoPlayInline = false,
   onExpand,
-  isCompact = false
+  isCompact = false,
+  showAdminDetails = false
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -165,7 +167,7 @@ export const PostVideoPlayer: React.FC<PostVideoPlayerProps> = ({
           allowFullScreen
           className="w-full h-full border-0"
         />
-        {hasTrim && (
+        {hasTrim && showAdminDetails && (
           <div className="absolute top-2 right-2 px-2 py-0.5 bg-black/80 border border-[#55ffff]/50 text-[#55ffff] text-[10px] font-mono flex items-center gap-1 z-10 pointer-events-none">
             <Scissors className="w-3 h-3" />
             <span>{formatTime(startTime)} - {endTime > 0 ? formatTime(endTime) : 'Fim'}</span>
@@ -208,42 +210,44 @@ export const PostVideoPlayer: React.FC<PostVideoPlayerProps> = ({
         </div>
       )}
 
-      {/* Badges Overlay */}
-      <div className="absolute top-2 right-2 flex items-center gap-1.5 z-20 pointer-events-auto">
-        {hasTrim && (
-          <div 
-            className="px-2 py-0.5 bg-black/85 border border-[#55ffff]/60 text-[#55ffff] text-[10px] font-mono flex items-center gap-1"
-            title={`Trecho cortado: de ${formatTime(startTime)} até ${endTime > 0 ? formatTime(endTime) : 'Fim'}`}
-          >
-            <Scissors className="w-3 h-3 text-[#55ffff]" />
-            <span>{formatTime(startTime)} - {endTime > 0 ? formatTime(endTime) : formatTime(duration)}</span>
-          </div>
-        )}
-
-        {/* Audio status / toggle button */}
-        <button
-          type="button"
-          onClick={toggleMute}
-          className={`px-2 py-0.5 text-[10px] font-bold uppercase flex items-center gap-1 cursor-pointer transition-all ${
-            isMuted 
-              ? 'bg-black/85 text-[#ff8888] border border-[#ff8888]/40 hover:bg-[#ff8888]/20' 
-              : 'bg-black/85 text-[#55ff55] border border-[#55ff55]/60 hover:bg-[#55ff55]/20'
-          }`}
-          title={isMuted ? 'Vídeo sem som (clique para ativar áudio)' : 'Vídeo com som (clique para silenciar)'}
-        >
-          {isMuted ? (
-            <>
-              <VolumeX className="w-3 h-3" />
-              <span>Sem Som</span>
-            </>
-          ) : (
-            <>
-              <Volume2 className="w-3 h-3" />
-              <span>Com Som</span>
-            </>
+      {/* Admin Details Overlay (Trim info and Audio Tag - only shown to admin) */}
+      {showAdminDetails && (
+        <div className="absolute top-2 right-2 flex items-center gap-1.5 z-20 pointer-events-auto">
+          {hasTrim && (
+            <div 
+              className="px-2 py-0.5 bg-black/85 border border-[#55ffff]/60 text-[#55ffff] text-[10px] font-mono flex items-center gap-1"
+              title={`Trecho cortado: de ${formatTime(startTime)} até ${endTime > 0 ? formatTime(endTime) : 'Fim'}`}
+            >
+              <Scissors className="w-3 h-3 text-[#55ffff]" />
+              <span>{formatTime(startTime)} - {endTime > 0 ? formatTime(endTime) : formatTime(duration)}</span>
+            </div>
           )}
-        </button>
-      </div>
+
+          {/* Audio status badge */}
+          <button
+            type="button"
+            onClick={toggleMute}
+            className={`px-2 py-0.5 text-[10px] font-bold uppercase flex items-center gap-1 cursor-pointer transition-all ${
+              isMuted 
+                ? 'bg-black/85 text-[#ff8888] border border-[#ff8888]/40 hover:bg-[#ff8888]/20' 
+                : 'bg-black/85 text-[#55ff55] border border-[#55ff55]/60 hover:bg-[#55ff55]/20'
+            }`}
+            title={isMuted ? 'Vídeo sem som (clique para ativar áudio)' : 'Vídeo com som (clique para silenciar)'}
+          >
+            {isMuted ? (
+              <>
+                <VolumeX className="w-3 h-3" />
+                <span>Sem Som</span>
+              </>
+            ) : (
+              <>
+                <Volume2 className="w-3 h-3" />
+                <span>Com Som</span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
 
       {/* Floating Bottom Controls Bar (shown on hover or when playing in non-compact mode) */}
       <div className="absolute bottom-0 inset-x-0 p-2 bg-gradient-to-t from-black/90 via-black/60 to-transparent flex items-center justify-between gap-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity">

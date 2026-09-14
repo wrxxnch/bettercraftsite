@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { Screenshot } from '../types';
 import { useAuth } from '../context/AuthContext';
+import { api } from '../services/api';
 import { compressImageForFirebase } from '../lib/imageCompressor';
 import { extractYouTubeId, formatTime } from './PostVideoPlayer';
 
@@ -186,14 +187,14 @@ export const AddScreenshotModal: React.FC<AddScreenshotModalProps> = ({
   };
 
   // Handle Video File Selection
-  const handleVideoFileChange = (file: File) => {
+  const handleVideoFileChange = async (file: File) => {
     if (!file.type.startsWith('video/')) {
-      setError('Por favor, selecione um arquivo de vídeo válido (.mp4, .webm).');
+      setError('Por favor, selecione um arquivo de vídeo válido (.mp4, .webm, .ogg).');
       return;
     }
 
-    if (file.size > 35 * 1024 * 1024) {
-      setError('O vídeo selecionado ultrapassa 35MB. Para vídeos maiores, use link direto ou YouTube.');
+    if (file.size > 50 * 1024 * 1024) {
+      setError('O vídeo selecionado ultrapassa 50MB. Para vídeos maiores, use link do YouTube.');
       return;
     }
 
@@ -202,13 +203,29 @@ export const AddScreenshotModal: React.FC<AddScreenshotModalProps> = ({
     setIsProcessingVideo(true);
 
     try {
+      // Create local object URL for instant preview & trim controls
       const videoBlobUrl = URL.createObjectURL(file);
       setVideoUrl(videoBlobUrl);
-      setUploadSuccessName(file.name);
-      setIsProcessingVideo(false);
+      setUploadSuccessName(`Enviando vídeo (${(file.size / (1024 * 1024)).toFixed(1)} MB)...`);
+
+      // Read file to base64 and upload to server storage
+      const reader = new FileReader();
+      const base64Promise = new Promise<string>((resolve, reject) => {
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+      });
+      reader.readAsDataURL(file);
+      const base64Data = await base64Promise;
+
+      const uploadRes = await api.uploadImage(base64Data, user?.email, file.name, file.type);
+      if (uploadRes && uploadRes.url) {
+        setVideoUrl(uploadRes.url);
+        setUploadSuccessName(`Vídeo salvo no servidor: ${file.name}`);
+      }
     } catch (err: any) {
-      console.error('Video file error:', err);
-      setError('Erro ao carregar o arquivo de vídeo.');
+      console.error('Video upload error:', err);
+      setError(err.message || 'Erro ao enviar o arquivo de vídeo para o servidor.');
+    } finally {
       setIsProcessingVideo(false);
     }
   };
@@ -311,10 +328,33 @@ export const AddScreenshotModal: React.FC<AddScreenshotModalProps> = ({
         .map(t => t.trim())
         .filter(t => t.length > 0);
 
-      // Determine final imageUrl
+      // Ensure video is properly uploaded and not a local blob
+      let finalVideoUrl = videoUrl.trim();
+      if (mediaType === 'video') {
+        if (finalVideoUrl.startsWith('blob:') && selectedVideoFile) {
+          const reader = new FileReader();
+          const base64Promise = new Promise<string>((resolve, reject) => {
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = reject;
+          });
+          reader.readAsDataURL(selectedVideoFile);
+          const base64Data = await base64Promise;
+          const uploadRes = await api.uploadImage(base64Data, user?.email, selectedVideoFile.name, selectedVideoFile.type);
+          finalVideoUrl = uploadRes.url;
+        }
+      }
+
+      // Determine final imageUrl / thumbnail
       let finalImageUrl = imageUrl.trim();
       if (mediaType === 'video') {
-        finalImageUrl = videoThumbnailUrl.trim() || videoUrl.trim();
+        const yt = extractYouTubeId(finalVideoUrl);
+        if (videoThumbnailUrl.trim()) {
+          finalImageUrl = videoThumbnailUrl.trim();
+        } else if (yt) {
+          finalImageUrl = `https://img.youtube.com/vi/${yt}/hqdefault.jpg`;
+        } else {
+          finalImageUrl = finalVideoUrl;
+        }
       }
 
       const payload: any = {
@@ -328,7 +368,7 @@ export const AddScreenshotModal: React.FC<AddScreenshotModalProps> = ({
       };
 
       if (mediaType === 'video') {
-        payload.videoUrl = videoUrl.trim();
+        payload.videoUrl = finalVideoUrl;
         payload.startTime = Number(startTime) || 0;
         payload.endTime = Number(endTime) || 0;
         payload.isMuted = Boolean(isMuted);
