@@ -166,3 +166,14 @@ export interface AuthSession {
   isAdmin: boolean;
   token?: string;
 }
+
+export interface GitHubRelease {
+  tag_name: string;
+  name: string;
+  html_url: string;
+  published_at?: string;
+  body?: string;
+  apk_url?: string;
+  apk_name?: string;
+  apk_size?: number;
+}

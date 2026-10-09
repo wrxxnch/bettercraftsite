@@ -8,7 +8,8 @@ import {
   ChangelogRelease, 
   GitHubCommit, 
   GameInfo, 
-  AuditLog 
+  AuditLog,
+  GitHubRelease 
 } from './src/types.js';
 
 const PORT = 3000;
@@ -32,6 +33,8 @@ interface DatabaseSchema {
   auditLogs: AuditLog[];
   cachedCommits: GitHubCommit[];
   lastCommitsFetch: number;
+  cachedLatestRelease?: GitHubRelease;
+  lastReleaseFetch?: number;
 }
 
 const DEFAULT_GAME_INFO: GameInfo = {
@@ -453,6 +456,48 @@ async function fetchGitHubCommits(db: DatabaseSchema): Promise<GitHubCommit[]> {
   return db.cachedCommits && db.cachedCommits.length > 0 ? db.cachedCommits : FALLBACK_COMMITS;
 }
 
+async function fetchLatestGitHubRelease(db: DatabaseSchema): Promise<GitHubRelease | null> {
+  const now = Date.now();
+  if (db.cachedLatestRelease && db.lastReleaseFetch && (now - db.lastReleaseFetch < 3 * 60 * 1000)) {
+    return db.cachedLatestRelease;
+  }
+
+  try {
+    const response = await fetch('https://api.github.com/repos/wrxxnch/luanti-bettercraft/releases/latest', {
+      headers: {
+        'User-Agent': 'Luanti-BetterCraft-App/1.0',
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+
+    if (response.ok) {
+      const data: any = await response.json();
+      const apkAsset = data.assets?.find((a: any) => a.name?.toLowerCase().endsWith('.apk'));
+      const releaseInfo: GitHubRelease = {
+        tag_name: data.tag_name || 'latest',
+        name: data.name || data.tag_name || 'Última Release',
+        html_url: data.html_url || 'https://github.com/wrxxnch/luanti-bettercraft/releases/latest',
+        published_at: data.published_at,
+        body: data.body,
+        apk_url: apkAsset?.browser_download_url,
+        apk_name: apkAsset?.name,
+        apk_size: apkAsset?.size
+      };
+
+      db.cachedLatestRelease = releaseInfo;
+      db.lastReleaseFetch = now;
+      saveDatabase(db);
+      return releaseInfo;
+    } else {
+      console.warn(`GitHub API releases returned status ${response.status}`);
+    }
+  } catch (err) {
+    console.warn("Failed to fetch live GitHub latest release:", err);
+  }
+
+  return db.cachedLatestRelease || null;
+}
+
 async function startServer() {
   const app = express();
   let db = loadDatabase();
@@ -795,6 +840,19 @@ async function startServer() {
       success: true,
       repo: `${db.gameInfo.repoOwner}/${db.gameInfo.repoName}`,
       data: commits
+    });
+  });
+
+  // 4b. Live GitHub Latest Release (Android APK & release info)
+  app.get('/api/releases/latest', async (req, res) => {
+    const release = await fetchLatestGitHubRelease(db);
+    res.json({
+      success: true,
+      data: release || {
+        tag_name: 'latest',
+        name: 'Última Release',
+        html_url: 'https://github.com/wrxxnch/luanti-bettercraft/releases/latest'
+      }
     });
   });
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
   X, 
   Image as ImageIcon, 
@@ -22,7 +22,9 @@ import {
   Play,
   Pause,
   RotateCcw,
-  Sliders
+  Sliders,
+  ClipboardPaste,
+  ClipboardCheck
 } from 'lucide-react';
 import { Screenshot } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -37,6 +39,7 @@ interface AddScreenshotModalProps {
   editScreenshot?: Screenshot | null;
   allowPublicScreenshots?: boolean;
   onOpenAdminLogin?: () => void;
+  initialImageFile?: File | null;
 }
 
 const PRESET_CATEGORIES = [
@@ -56,7 +59,8 @@ export const AddScreenshotModal: React.FC<AddScreenshotModalProps> = ({
   onSave,
   editScreenshot,
   allowPublicScreenshots = false,
-  onOpenAdminLogin
+  onOpenAdminLogin,
+  initialImageFile
 }) => {
   const { user, isAdmin } = useAuth();
   
@@ -78,6 +82,8 @@ export const AddScreenshotModal: React.FC<AddScreenshotModalProps> = ({
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [uploadSuccessName, setUploadSuccessName] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [pasteFeedback, setPasteFeedback] = useState<string | null>(null);
+  const [isPasteTargetActive, setIsPasteTargetActive] = useState(false);
 
   // Video Specific Fields
   const [videoMode, setVideoMode] = useState<'url' | 'upload'>('url');
@@ -148,6 +154,8 @@ export const AddScreenshotModal: React.FC<AddScreenshotModalProps> = ({
       setSelectedImageFile(null);
       setSelectedVideoFile(null);
       setUploadSuccessName(null);
+      setPasteFeedback(null);
+      setIsPasteTargetActive(false);
       setAuthorName(user?.name || (user?.email ? user.email.split('@')[0] : ''));
       setMediaType('image');
       setImageMode('upload');
@@ -156,10 +164,8 @@ export const AddScreenshotModal: React.FC<AddScreenshotModalProps> = ({
     setError(null);
   }, [editScreenshot, isOpen, user]);
 
-  if (!isOpen) return null;
-
   // Handle Image File Selection
-  const handleImageFileChange = async (file: File) => {
+  const handleImageFileChange = useCallback(async (file: File) => {
     if (!file.type.startsWith('image/')) {
       setError('Por favor, selecione um arquivo de imagem válido (PNG, JPG, WebP ou GIF).');
       return;
@@ -177,12 +183,160 @@ export const AddScreenshotModal: React.FC<AddScreenshotModalProps> = ({
     try {
       const compressedDataUrl = await compressImageForFirebase(file, 1280, 0.85);
       setImageUrl(compressedDataUrl);
-      setUploadSuccessName(file.name);
+      setUploadSuccessName(file.name || 'Captura de tela colada');
       setIsUploadingImage(false);
     } catch (err: any) {
       console.error('Image upload error:', err);
       setError(err.message || 'Erro ao processar a imagem.');
       setIsUploadingImage(false);
+    }
+  }, []);
+
+  // Handle initial image if passed via global Ctrl+V
+  useEffect(() => {
+    if (isOpen && initialImageFile) {
+      setMediaType('image');
+      setImageMode('upload');
+      handleImageFileChange(initialImageFile);
+      setPasteFeedback('Foto colada da área de transferência via Ctrl+V!');
+      setIsPasteTargetActive(true);
+      const timer = setTimeout(() => {
+        setPasteFeedback(null);
+        setIsPasteTargetActive(false);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, initialImageFile, handleImageFileChange]);
+
+  // Global paste listener for Ctrl+V when modal is open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleWindowPaste = (e: ClipboardEvent) => {
+      const clipboardData = e.clipboardData;
+      if (!clipboardData) return;
+
+      const activeEl = document.activeElement;
+      const isTextInput = activeEl instanceof HTMLInputElement || activeEl instanceof HTMLTextAreaElement;
+
+      // Check if clipboard contains image data
+      let imageFile: File | null = null;
+
+      if (clipboardData.items && clipboardData.items.length > 0) {
+        for (let i = 0; i < clipboardData.items.length; i++) {
+          const item = clipboardData.items[i];
+          if (item.type && item.type.startsWith('image/')) {
+            const file = item.getAsFile();
+            if (file) {
+              imageFile = file;
+              break;
+            }
+          }
+        }
+      }
+
+      if (!imageFile && clipboardData.files && clipboardData.files.length > 0) {
+        for (let i = 0; i < clipboardData.files.length; i++) {
+          const file = clipboardData.files[i];
+          if (file.type && file.type.startsWith('image/')) {
+            imageFile = file;
+            break;
+          }
+        }
+      }
+
+      if (imageFile) {
+        // Prevent default browser behavior
+        e.preventDefault();
+
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+        const fileName = (!imageFile.name || imageFile.name === 'image.png' || imageFile.name === 'blob')
+          ? `print-${timestamp}.png`
+          : imageFile.name;
+        const normalizedFile = new File([imageFile], fileName, { type: imageFile.type || 'image/png' });
+
+        setMediaType('image');
+        setImageMode('upload');
+        handleImageFileChange(normalizedFile);
+        setPasteFeedback(`Foto colada via Ctrl+V! (${fileName})`);
+        setIsPasteTargetActive(true);
+        setTimeout(() => setIsPasteTargetActive(false), 1500);
+        setTimeout(() => setPasteFeedback(null), 4500);
+        return;
+      }
+
+      // If user pasted an image URL and not inside a text input
+      if (!isTextInput) {
+        const text = clipboardData.getData('text/plain')?.trim();
+        if (text) {
+          if (/^data:image\/(png|jpeg|jpg|webp|gif);base64,/i.test(text)) {
+            e.preventDefault();
+            setMediaType('image');
+            setImageMode('url');
+            setImageUrl(text);
+            setPasteFeedback('Imagem Base64 colada via Ctrl+V!');
+            setTimeout(() => setPasteFeedback(null), 4000);
+          } else if (/^https?:\/\/.*\.(png|jpg|jpeg|webp|gif|svg)(\?.*)?$/i.test(text)) {
+            e.preventDefault();
+            setMediaType('image');
+            setImageMode('url');
+            setImageUrl(text);
+            setPasteFeedback('Link de imagem colado via Ctrl+V!');
+            setTimeout(() => setPasteFeedback(null), 4000);
+          }
+        }
+      }
+    };
+
+    window.addEventListener('paste', handleWindowPaste);
+    return () => {
+      window.removeEventListener('paste', handleWindowPaste);
+    };
+  }, [isOpen, handleImageFileChange]);
+
+  const handlePasteFromClipboardClick = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      if (navigator.clipboard && navigator.clipboard.read) {
+        const items = await navigator.clipboard.read();
+        let found = false;
+        for (const item of items) {
+          const imageType = item.types.find(t => t.startsWith('image/'));
+          if (imageType) {
+            const blob = await item.getType(imageType);
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+            const file = new File([blob], `print-${timestamp}.png`, { type: imageType });
+            setMediaType('image');
+            setImageMode('upload');
+            handleImageFileChange(file);
+            setPasteFeedback('Foto colada da área de transferência!');
+            setIsPasteTargetActive(true);
+            setTimeout(() => setIsPasteTargetActive(false), 1500);
+            setTimeout(() => setPasteFeedback(null), 4000);
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          const text = (await navigator.clipboard.readText())?.trim();
+          if (text && /^https?:\/\/.*\.(png|jpg|jpeg|webp|gif|svg)(\?.*)?$/i.test(text)) {
+            setImageUrl(text);
+            setImageMode('url');
+            setMediaType('image');
+            setPasteFeedback('Link de foto colado da área de transferência!');
+            setTimeout(() => setPasteFeedback(null), 4000);
+          } else {
+            setPasteFeedback('Nenhuma imagem na área de transferência. Tire um print ou copie uma imagem e aperte Ctrl+V.');
+            setTimeout(() => setPasteFeedback(null), 4000);
+          }
+        }
+      } else {
+        setPasteFeedback('Pressione o atalho Ctrl + V no teclado para colar a imagem diretamente!');
+        setTimeout(() => setPasteFeedback(null), 4000);
+      }
+    } catch {
+      setPasteFeedback('Pressione o atalho Ctrl + V no teclado para colar a imagem copiada!');
+      setTimeout(() => setPasteFeedback(null), 4000);
     }
   };
 
@@ -392,6 +546,8 @@ export const AddScreenshotModal: React.FC<AddScreenshotModalProps> = ({
   const ytId = mediaType === 'video' ? extractYouTubeId(videoUrl) : null;
   const effectiveTrimDuration = (endTime > 0 ? endTime : videoDuration) - startTime;
 
+  if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 overflow-y-auto">
       <div 
@@ -573,13 +729,26 @@ export const AddScreenshotModal: React.FC<AddScreenshotModalProps> = ({
 
                 {imageMode === 'upload' && (
                   <div className="space-y-2">
+                    {/* Feedback when pasted via Ctrl+V */}
+                    {pasteFeedback && (
+                      <div className="flex items-center gap-2 p-2.5 bg-[#0f2916] border-2 border-[#55ff55] text-xs text-[#55ff55] shadow-lg animate-in fade-in duration-200">
+                        <ClipboardCheck className="w-4 h-4 text-[#55ff55] shrink-0" />
+                        <span className="font-bold flex-1">{pasteFeedback}</span>
+                        <span className="text-[10px] font-mono text-[#88ff88] uppercase">[Ctrl+V Detectado]</span>
+                      </div>
+                    )}
+
                     <div
                       onDragOver={handleDragOver}
                       onDragLeave={handleDragLeave}
                       onDrop={handleDrop}
                       onClick={() => fileInputRef.current?.click()}
-                      className={`p-6 mc-slot flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${
-                        isDragging ? 'border-[#55ffff] bg-[#1a2b38]' : 'hover:border-[#55ff55] bg-[#120f1a]'
+                      className={`p-6 mc-slot flex flex-col items-center justify-center text-center cursor-pointer transition-all ${
+                        isPasteTargetActive
+                          ? 'border-[#55ff55] bg-[#10291a] ring-2 ring-[#55ff55]'
+                          : isDragging 
+                            ? 'border-[#55ffff] bg-[#1a2b38]' 
+                            : 'hover:border-[#55ff55] bg-[#120f1a]'
                       }`}
                     >
                       <input
@@ -601,16 +770,37 @@ export const AddScreenshotModal: React.FC<AddScreenshotModalProps> = ({
                         </div>
                       ) : (
                         <div className="flex flex-col items-center gap-2">
-                          <div className="w-10 h-10 mc-slot flex items-center justify-center text-[#55ff55]">
-                            <UploadCloud className="w-5 h-5" />
+                          <div className="flex items-center gap-2">
+                            <div className="w-10 h-10 mc-slot flex items-center justify-center text-[#55ff55]">
+                              <UploadCloud className="w-5 h-5" />
+                            </div>
+                            <div className="w-10 h-10 mc-slot flex items-center justify-center text-[#55ffff]" title="Suporta Ctrl + V">
+                              <ClipboardPaste className="w-5 h-5" />
+                            </div>
                           </div>
-                          <div className="space-y-0.5">
+                          <div className="space-y-1">
                             <p className="text-xs font-bold text-white uppercase">
-                              Clique para escolher ou arraste a foto aqui
+                              Clique para escolher, arraste ou cole com <span className="text-[#55ffff]">Ctrl + V</span>
+                            </p>
+                            <p className="text-[11px] text-[#b4afc4]">
+                              Tire um print (<kbd className="px-1 py-0.5 bg-[#201a30] text-white border border-[#3b344a] text-[10px]">Win+Shift+S</kbd> ou <kbd className="px-1 py-0.5 bg-[#201a30] text-white border border-[#3b344a] text-[10px]">PrintScreen</kbd>) e aperte <span className="text-[#55ff55] font-bold font-mono">Ctrl + V</span>
                             </p>
                             <p className="text-[10px] text-[#8e8999] font-mono">
                               PNG, JPG, WebP ou GIF (Máx 10MB)
                             </p>
+                          </div>
+
+                          {/* Quick paste button */}
+                          <div className="pt-1">
+                            <button
+                              type="button"
+                              onClick={handlePasteFromClipboardClick}
+                              className="px-2.5 py-1 text-[11px] font-bold uppercase bg-[#1f2937] hover:bg-[#2e3e57] border border-[#55ffff]/50 text-[#55ffff] hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer"
+                              title="Colar direto da área de transferência"
+                            >
+                              <ClipboardPaste className="w-3.5 h-3.5" />
+                              <span>Colar Imagem Copiada (Ctrl+V)</span>
+                            </button>
                           </div>
                         </div>
                       )}

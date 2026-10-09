@@ -15,7 +15,7 @@ import {
   RefreshCw,
   Shuffle
 } from 'lucide-react';
-import { GameInfo, Screenshot, SplashConfig } from '../types';
+import { GameInfo, Screenshot, SplashConfig, GitHubRelease } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { BetterCraftLogo } from './BetterCraftLogo';
 
@@ -24,6 +24,7 @@ interface HeroSectionProps {
   featuredScreenshots: Screenshot[];
   splashConfig?: SplashConfig;
   currentWallpaperUrl?: string;
+  latestRelease?: GitHubRelease | null;
   onOpenAddScreenshot: () => void;
 }
 
@@ -32,6 +33,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   featuredScreenshots,
   splashConfig,
   currentWallpaperUrl,
+  latestRelease,
   onOpenAddScreenshot
 }) => {
   const { isAdmin } = useAuth();
@@ -170,25 +172,42 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     <span className="text-xs font-bold text-white uppercase font-minecraft">
                       DISPOSITIVO ANDROID DETECTADO
                     </span>
-                    <span className="text-[9px] px-1.5 py-0.2 bg-[#2b742b] text-white font-bold border border-[#55ff55]">
-                      SULPHUR UPDATE
+                    <span className="text-[9px] px-1.5 py-0.2 bg-[#2b742b] text-white font-bold border border-[#55ff55] uppercase">
+                      {latestRelease?.tag_name || 'ÚLTIMA RELEASE'}
                     </span>
                   </div>
                   <p className="text-[11px] text-[#bbf7bb] mt-0.5">
-                    Para melhor experiência no celular, baixe a versão oficial com suporte a toque e desempenho otimizado:
+                    Para melhor experiência no celular, baixe a versão oficial mais recente compilada para Android:
                   </p>
                 </div>
               </div>
 
-              <a
-                href="https://github.com/wrxxnch/luanti-bettercraft/releases/tag/sulphurupdate"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mc-btn mc-btn-green px-3.5 py-2 text-xs font-bold whitespace-nowrap flex items-center gap-1.5 cursor-pointer flex-shrink-0 self-end sm:self-center"
-              >
-                <span>Ver Release Android</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
+              <div className="flex items-center gap-2 flex-wrap self-end sm:self-center">
+                {latestRelease?.apk_url && (
+                  <a
+                    href={latestRelease.apk_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mc-btn mc-btn-green px-3.5 py-2 text-xs font-bold whitespace-nowrap flex items-center gap-1.5 cursor-pointer flex-shrink-0"
+                    title={`Baixar ${latestRelease.apk_name || 'APK'} diretamente`}
+                  >
+                    <Download className="w-3.5 h-3.5 stroke-[2.5]" />
+                    <span>Baixar APK {latestRelease.apk_size ? `(${Math.round(latestRelease.apk_size / 1024 / 1024)} MB)` : ''}</span>
+                  </a>
+                )}
+
+                <a
+                  href={latestRelease?.html_url || "https://github.com/wrxxnch/luanti-bettercraft/releases/latest"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={latestRelease?.apk_url 
+                    ? "mc-btn mc-btn-diamond px-3 py-2 text-xs font-bold whitespace-nowrap flex items-center gap-1.5 cursor-pointer flex-shrink-0"
+                    : "mc-btn mc-btn-green px-3.5 py-2 text-xs font-bold whitespace-nowrap flex items-center gap-1.5 cursor-pointer flex-shrink-0"}
+                >
+                  <span>Ver Última Release</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
             </div>
           )}
 

@@ -23,11 +23,12 @@ import {
   PackageCheck,
   HardDrive
 } from 'lucide-react';
-import { GameInfo, GameFeature } from '../types';
+import { GameInfo, GameFeature, GitHubRelease } from '../types';
 
 interface FeaturesSectionProps {
   gameInfo?: GameInfo;
   features?: GameFeature[];
+  latestRelease?: GitHubRelease | null;
 }
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -41,7 +42,7 @@ const iconMap: Record<string, React.ReactNode> = {
 
 type DetectedDevice = 'android' | 'windows' | 'linux' | 'macos' | 'unknown';
 
-export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ gameInfo, features }) => {
+export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ gameInfo, features, latestRelease }) => {
   const featureItems: GameFeature[] = features || gameInfo?.features || [];
 
   const [device, setDevice] = useState<DetectedDevice>('unknown');
@@ -69,7 +70,7 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ gameInfo, feat
     }
   }, []);
 
-  const GITHUB_ANDROID_RELEASE_URL = 'https://github.com/wrxxnch/luanti-bettercraft/releases/tag/sulphurupdate';
+  const GITHUB_ANDROID_LATEST_RELEASE_URL = 'https://github.com/wrxxnch/luanti-bettercraft/releases/latest';
   const GITHUB_DESKTOP_ZIP_URL = 'https://github.com/wrxxnch/bettercraft/archive/refs/heads/main.zip';
   const GITHUB_REPO_URL = 'https://github.com/wrxxnch/bettercraft';
 
@@ -104,20 +105,20 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ gameInfo, feat
                   <span>Dispositivo Detectado: {device === 'android' ? 'Android' : device === 'windows' ? 'Windows' : device === 'linux' ? 'Linux' : device === 'macos' ? 'macOS' : 'PC / Mobile'}</span>
                 </span>
                 <span className="px-2 py-0.5 text-[10px] font-mono font-bold bg-[#282136] text-[#ffff55] border border-[#44385c]">
-                  Release Oficial: Sulphur Update
+                  Release Oficial: {latestRelease?.name || latestRelease?.tag_name || 'Última Versão'}
                 </span>
               </div>
 
               <h3 className="text-lg sm:text-2xl font-bold text-white font-minecraft mc-text-shadow">
                 {selectedTab === 'android' 
-                  ? 'BAIXAR BETTERCRAFT PARA ANDROID (APK RELEASE)' 
+                  ? 'BAIXAR BETTERCRAFT PARA ANDROID (ÚLTIMA RELEASE)' 
                   : 'BAIXAR PACOTE DO BETTERCRAFT PARA DESKTOP'}
               </h3>
               <p className="text-xs sm:text-sm text-[#cfcbd9] max-w-2xl leading-relaxed">
                 {selectedTab === 'android' ? (
                   <>
                     Detectamos que você está em um smartphone/tablet <strong>Android</strong>. 
-                    Baixe diretamente a release oficial compilada do GitHub (Sulphur Update) pronta para instalar e jogar no Luanti!
+                    Baixe diretamente a última release oficial compilada do GitHub{latestRelease?.tag_name ? ` (${latestRelease.tag_name})` : ''} pronta para instalar e jogar no Luanti!
                   </>
                 ) : (
                   <>
@@ -130,36 +131,64 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ gameInfo, feat
             {/* Quick Action Download Buttons */}
             <div className="flex flex-col sm:flex-row items-stretch gap-3 w-full lg:w-auto">
               {selectedTab === 'android' ? (
-                <a
-                  href={GITHUB_ANDROID_RELEASE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mc-btn mc-btn-green px-5 py-3.5 text-xs sm:text-sm flex items-center justify-center gap-2 font-bold cursor-pointer whitespace-nowrap shadow-lg animate-pulse"
-                >
-                  <Download className="w-4 h-4 stroke-[3]" />
-                  <span>BAIXAR RELEASE DO GITHUB (ANDROID) &rarr;</span>
-                </a>
-              ) : (
-                <a
-                  href={GITHUB_DESKTOP_ZIP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mc-btn mc-btn-green px-5 py-3.5 text-xs sm:text-sm flex items-center justify-center gap-2 font-bold cursor-pointer whitespace-nowrap shadow-lg"
-                >
-                  <Download className="w-4 h-4 stroke-[3]" />
-                  <span>BAIXAR BETTERCRAFT .ZIP &rarr;</span>
-                </a>
-              )}
+                <div className="flex flex-col sm:flex-row items-stretch gap-2.5 w-full sm:w-auto">
+                  {latestRelease?.apk_url ? (
+                    <a
+                      href={latestRelease.apk_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mc-btn mc-btn-green px-5 py-3.5 text-xs sm:text-sm flex items-center justify-center gap-2 font-bold cursor-pointer whitespace-nowrap shadow-lg animate-pulse"
+                      title={`Baixar ${latestRelease.apk_name || 'APK'} diretamente`}
+                    >
+                      <Download className="w-4 h-4 stroke-[3]" />
+                      <span>BAIXAR APK DIRETO {latestRelease.apk_size ? `(${Math.round(latestRelease.apk_size / 1024 / 1024)} MB)` : ''} &rarr;</span>
+                    </a>
+                  ) : (
+                    <a
+                      href={latestRelease?.html_url || GITHUB_ANDROID_LATEST_RELEASE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mc-btn mc-btn-green px-5 py-3.5 text-xs sm:text-sm flex items-center justify-center gap-2 font-bold cursor-pointer whitespace-nowrap shadow-lg animate-pulse"
+                    >
+                      <Download className="w-4 h-4 stroke-[3]" />
+                      <span>BAIXAR ÚLTIMA RELEASE &rarr;</span>
+                    </a>
+                  )}
 
-              <a
-                href={GITHUB_REPO_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mc-btn mc-btn-diamond px-4 py-3.5 text-xs flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
-              >
-                <ExternalLink className="w-4 h-4" />
-                <span>Ver no GitHub</span>
-              </a>
+                  <a
+                    href={latestRelease?.html_url || GITHUB_ANDROID_LATEST_RELEASE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mc-btn mc-btn-diamond px-4 py-3.5 text-xs flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
+                    title="Ver página da última release no GitHub"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    <span>Ver no GitHub</span>
+                  </a>
+                </div>
+              ) : (
+                <div className="flex flex-col sm:flex-row items-stretch gap-2.5 w-full sm:w-auto">
+                  <a
+                    href={GITHUB_DESKTOP_ZIP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mc-btn mc-btn-green px-5 py-3.5 text-xs sm:text-sm flex items-center justify-center gap-2 font-bold cursor-pointer whitespace-nowrap shadow-lg"
+                  >
+                    <Download className="w-4 h-4 stroke-[3]" />
+                    <span>BAIXAR BETTERCRAFT .ZIP &rarr;</span>
+                  </a>
+
+                  <a
+                    href={GITHUB_REPO_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mc-btn mc-btn-diamond px-4 py-3.5 text-xs flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    <span>Ver no GitHub</span>
+                  </a>
+                </div>
+              )}
             </div>
           </div>
 
@@ -178,7 +207,7 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ gameInfo, feat
                 }`}
               >
                 <Smartphone className="w-3 h-3" />
-                <span>Android (Release)</span>
+                <span>Android (Última Release)</span>
               </button>
 
               <button

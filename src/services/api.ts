@@ -4,7 +4,8 @@ import {
   ChangelogRelease, 
   GitHubCommit, 
   GameInfo, 
-  AuditLog 
+  AuditLog,
+  GitHubRelease 
 } from '../types';
 
 class ApiService {
@@ -170,6 +171,51 @@ class ApiService {
     }
 
     throw new Error('Falha ao sincronizar commits');
+  }
+
+  // GitHub Latest Release (Android APK & release info)
+  async getLatestRelease(): Promise<GitHubRelease> {
+    try {
+      const res = await fetch('/api/releases/latest');
+      const json = await res.json();
+      if (json.success && json.data) {
+        return json.data;
+      }
+    } catch (e) {
+      console.warn('API /api/releases/latest failed, falling back to direct GitHub fetch:', e);
+    }
+
+    // Direct GitHub fallback
+    try {
+      const ghRes = await fetch('https://api.github.com/repos/wrxxnch/luanti-bettercraft/releases/latest', {
+        headers: {
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
+      if (ghRes.ok) {
+        const data: any = await ghRes.json();
+        const apkAsset = data.assets?.find((a: any) => a.name?.toLowerCase().endsWith('.apk'));
+        return {
+          tag_name: data.tag_name || 'latest',
+          name: data.name || data.tag_name || 'Última Release',
+          html_url: data.html_url || 'https://github.com/wrxxnch/luanti-bettercraft/releases/latest',
+          published_at: data.published_at,
+          body: data.body,
+          apk_url: apkAsset?.browser_download_url,
+          apk_name: apkAsset?.name,
+          apk_size: apkAsset?.size
+        };
+      }
+    } catch (ghErr) {
+      console.warn('Direct GitHub release fetch also failed:', ghErr);
+    }
+
+    // Safe universal fallback pointing directly to the auto-redirecting GitHub latest release URL
+    return {
+      tag_name: 'latest',
+      name: 'Última Release',
+      html_url: 'https://github.com/wrxxnch/luanti-bettercraft/releases/latest'
+    };
   }
 
   // Admins

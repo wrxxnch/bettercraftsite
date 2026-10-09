@@ -10,16 +10,18 @@ import {
   HardDrive, 
   FolderOpen
 } from 'lucide-react';
-import { GameInfo } from '../types';
+import { GameInfo, GitHubRelease } from '../types';
 
 interface InstallGuideSectionProps {
   gameInfo: GameInfo;
+  latestRelease?: GitHubRelease | null;
 }
 
 type PlatformTab = 'windows' | 'linux' | 'android' | 'macos';
 
 export const InstallGuideSection: React.FC<InstallGuideSectionProps> = ({ 
-  gameInfo
+  gameInfo,
+  latestRelease
 }) => {
   const [activePlatform, setActivePlatform] = useState<PlatformTab>('windows');
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
@@ -148,6 +150,54 @@ export const InstallGuideSection: React.FC<InstallGuideSectionProps> = ({
 
           {/* Steps List */}
           <div className="p-6 sm:p-8 space-y-5 bg-[#171321]">
+            {activePlatform === 'android' && (
+              <div className="p-4 mc-panel bg-[#122316] border-2 border-[#55ff55] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 mc-slot flex items-center justify-center text-[#55ff55] bg-[#0c180f] flex-shrink-0">
+                    <Smartphone className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-white uppercase font-minecraft">
+                        ÚLTIMA RELEASE PARA ANDROID
+                      </span>
+                      <span className="text-[9px] px-1.5 py-0.2 bg-[#2b742b] text-white font-bold border border-[#55ff55] uppercase">
+                        {latestRelease?.tag_name || 'LATEST'}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-[#bbf7bb] mt-0.5">
+                      Baixe o APK oficial mais recente do BetterCraft compilado para Android diretamente do GitHub:
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 flex-wrap self-end sm:self-center">
+                  {latestRelease?.apk_url && (
+                    <a
+                      href={latestRelease.apk_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mc-btn mc-btn-green px-3.5 py-2 text-xs font-bold whitespace-nowrap flex items-center gap-1.5 cursor-pointer"
+                      title="Download direto do APK"
+                    >
+                      <Download className="w-3.5 h-3.5 stroke-[2.5]" />
+                      <span>Baixar APK {latestRelease.apk_size ? `(${Math.round(latestRelease.apk_size / 1024 / 1024)} MB)` : ''}</span>
+                    </a>
+                  )}
+
+                  <a
+                    href={latestRelease?.html_url || "https://github.com/wrxxnch/luanti-bettercraft/releases/latest"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mc-btn mc-btn-diamond px-3 py-2 text-xs font-bold whitespace-nowrap flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span>Ver no GitHub</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+            )}
+
             {steps.map((st, index) => (
               <div key={st.step} className="flex items-start gap-3.5">
                 <div className="w-7 h-7 mc-slot flex items-center justify-center text-xs font-bold text-[#55ffff] flex-shrink-0 mt-0.5">

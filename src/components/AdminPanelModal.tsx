@@ -832,19 +832,20 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                     </div>
                     <p className="text-[11px] text-[#bbf7bb]">
                       {isAndroid 
-                        ? 'O banner recomendando a release oficial do GitHub (Sulphur Update) está ativo para este dispositivo.'
-                        : 'Quando um usuário acessar via Android, uma recomendação para a release do GitHub será exibida automaticamente.'}
+                        ? 'O banner recomendando a última release oficial do GitHub está ativo para este dispositivo.'
+                        : 'Quando um usuário acessar via Android, uma recomendação para a última release do GitHub será exibida automaticamente.'}
                     </p>
                   </div>
                 </div>
 
                 <a
-                  href="https://github.com/wrxxnch/luanti-bettercraft/releases/tag/sulphurupdate"
+                  href="https://github.com/wrxxnch/luanti-bettercraft/releases/latest"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mc-btn mc-btn-green px-3 py-1.5 text-xs font-bold flex items-center gap-1.5 whitespace-nowrap"
+                  title="Abrir a última release oficial no GitHub"
                 >
-                  <span>Release Sulphur Update</span>
+                  <span>Última Release no GitHub</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>

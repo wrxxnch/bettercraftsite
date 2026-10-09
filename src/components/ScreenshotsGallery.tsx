@@ -14,7 +14,8 @@ import {
   Scissors,
   Volume2,
   VolumeX,
-  Play
+  Play,
+  ClipboardPaste
 } from 'lucide-react';
 import { Screenshot } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -114,7 +115,7 @@ export const ScreenshotsGallery: React.FC<ScreenshotsGalleryProps> = ({
 
           {/* Action Button: Visible for Admins OR if Public Posting is Enabled */}
           {canPost && (
-            <div className="flex items-center gap-2 self-start md:self-auto">
+            <div className="flex flex-wrap items-center gap-2.5 self-start md:self-auto">
               <button
                 onClick={onOpenAddScreenshot}
                 id="gallery-btn-add-screenshot"
@@ -123,6 +124,14 @@ export const ScreenshotsGallery: React.FC<ScreenshotsGalleryProps> = ({
                 <Plus className="w-4 h-4 stroke-[3]" />
                 <span>{isAdmin ? 'PUBLICAR (FOTO OU VÍDEO)' : 'ENVIAR POST (FOTO / VÍDEO)'}</span>
               </button>
+
+              <div 
+                className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-[#171322] border border-[#3b344a] text-[11px] font-mono text-[#b4afc4]"
+                title="Tire print ou copie uma imagem e aperte Ctrl+V para colar diretamente"
+              >
+                <ClipboardPaste className="w-3.5 h-3.5 text-[#55ffff]" />
+                <span><span className="text-[#ffff55] font-bold">Dica:</span> aperte <kbd className="px-1 py-0.5 bg-[#251f33] border border-[#55ffff]/50 text-white rounded text-[10px]">Ctrl+V</kbd> para colar foto</span>
+              </div>
             </div>
           )}
         </div>

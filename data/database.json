@@ -290,280 +290,346 @@
   ],
   "cachedCommits": [
     {
-      "sha": "751bfcb2485af040a38456c4323167bbe531a3ec",
-      "message": "fixed golden apples,now edible and effects",
+      "sha": "74a81015648a61608d6968d38121ca0c08e20c45",
+      "message": "fixed wood_oak from coconut_palmtree_log crafting",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-31T14:27:23Z",
+        "date": "2026-10-08T18:53:20Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/751bfcb2485af040a38456c4323167bbe531a3ec"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/74a81015648a61608d6968d38121ca0c08e20c45"
     },
     {
-      "sha": "2bc4a7b01d272a38fed079a24b110f94f5e9df2f",
-      "message": "fix: fixed walkover and physics.lua(misclicked switched files)",
+      "sha": "7235f50a8d92b323b45009853e4a6b2a57ced855",
+      "message": "added boats,chest boats,hanging sign and sign texture for poplar",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-31T13:14:18Z",
+        "date": "2026-10-07T20:03:14Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/2bc4a7b01d272a38fed079a24b110f94f5e9df2f"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/7235f50a8d92b323b45009853e4a6b2a57ced855"
     },
     {
-      "sha": "70b21a451e6a63f6f835e51d220a7b18090d8c00",
-      "message": "fix: fix spider slowdown_nodes error & add potion physics fallback",
+      "sha": "3670f284802b3cdb9ed84da6439f63144651eb04",
+      "message": "3 string from 3 horizontal vines crafing",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-31T13:03:36Z",
+        "date": "2026-10-07T16:21:48Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/70b21a451e6a63f6f835e51d220a7b18090d8c00"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/3670f284802b3cdb9ed84da6439f63144651eb04"
     },
     {
-      "sha": "8147413d0c13116610d9ef3eff02cce615e2f357",
-      "message": "fixed frost walker logic,physics.lua sculk death XP error,updated screenshot.png from icon.png",
+      "sha": "50da5e08e6925d9fa74f7e2c74ddece3cb759d2c",
+      "message": "you can now lay down on strawbed even its day",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-31T12:47:31Z",
+        "date": "2026-10-07T15:47:56Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/8147413d0c13116610d9ef3eff02cce615e2f357"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/50da5e08e6925d9fa74f7e2c74ddece3cb759d2c"
     },
     {
-      "sha": "06d5e0a4e34ccb44e5022d42d054fcca734b2351",
-      "message": "updated screenshot.png to the game icon",
+      "sha": "442285a869c59e8c3b438e0497d145355f9a2853",
+      "message": "fixed poplar door texture (flipped)",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-31T12:44:18Z",
+        "date": "2026-10-07T14:35:29Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/06d5e0a4e34ccb44e5022d42d054fcca734b2351"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/442285a869c59e8c3b438e0497d145355f9a2853"
     },
     {
-      "sha": "8dc7a39853b0130ae8e8f2a7503639dffde78754",
-      "message": "fixed frost walker logic,physics.lua sculk death XP error",
+      "sha": "7c8ab0eee5b5fb4b0825913fb889e7adcf235b5d",
+      "message": "changed haybed texture and flipped door",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-31T12:04:01Z",
+        "date": "2026-10-06T20:50:59Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/8dc7a39853b0130ae8e8f2a7503639dffde78754"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/7c8ab0eee5b5fb4b0825913fb889e7adcf235b5d"
     },
     {
-      "sha": "4a4db76a5ef6b6d7a2ec2201b92ee6bf0bef9b6b",
-      "message": "fixed frost walker logic,physics.lua sculk death XP error",
+      "sha": "fac5684557f80db2386db64ebce1f1c5fcd014e3",
+      "message": "added hay_block as moreblock",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-31T12:02:31Z",
+        "date": "2026-10-06T20:25:14Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/4a4db76a5ef6b6d7a2ec2201b92ee6bf0bef9b6b"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/fac5684557f80db2386db64ebce1f1c5fcd014e3"
     },
     {
-      "sha": "b2615828bf65cab5a366be92aee5fac6c507b5eb",
-      "message": "fixed frost walker logic,physics.lua sculk death XP error",
+      "sha": "e3f882bb48b3afb1fd0b8d88925c1cca6cc870e2",
+      "message": "adding strawbed WIP",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-31T12:02:03Z",
+        "date": "2026-10-05T16:26:43Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/b2615828bf65cab5a366be92aee5fac6c507b5eb"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/e3f882bb48b3afb1fd0b8d88925c1cca6cc870e2"
     },
     {
-      "sha": "81805283c2cedf66533363feec62ae9c8d605db3",
-      "message": "fixed flowerpot texture error",
+      "sha": "933138fc63c331b748d5c26973a6c156725e6c77",
+      "message": "adding strawbed WIP",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-27T12:30:56Z",
+        "date": "2026-10-05T16:14:48Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/81805283c2cedf66533363feec62ae9c8d605db3"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/933138fc63c331b748d5c26973a6c156725e6c77"
     },
     {
-      "sha": "5de0fd29a578b2cf9b22f7130d62d48b2ddf1a37",
-      "message": "big spikes,nausea and geysers mts",
+      "sha": "b1018dfa94e7a7d90d3116046c646dd78241cce5",
+      "message": "added cache again??",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-26T20:31:31Z",
+        "date": "2026-10-02T21:13:37Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/5de0fd29a578b2cf9b22f7130d62d48b2ddf1a37"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/b1018dfa94e7a7d90d3116046c646dd78241cce5"
     },
     {
-      "sha": "4ccd595f410e173744df0517c243ffd81ff9d442",
-      "message": "fixed the geyser logic",
+      "sha": "c8ce46a3aef618a65ea33e6bb51a7fca5e7f606f",
+      "message": "added trees variant leaves red,yellow and orange",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-26T20:21:20Z",
+        "date": "2026-10-02T21:08:52Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/4ccd595f410e173744df0517c243ffd81ff9d442"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/c8ce46a3aef618a65ea33e6bb51a7fca5e7f606f"
     },
     {
-      "sha": "fcb4242e9cd0f273fc5ad5de95d4d17d11eca15f",
-      "message": "lush caves and sulphur added to menu screenshots",
+      "sha": "f147bc49c8ca576264fa6a353cd457d327b3ef32",
+      "message": "dapple forest WIP",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-26T20:09:07Z",
+        "date": "2026-10-02T20:19:46Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/fcb4242e9cd0f273fc5ad5de95d4d17d11eca15f"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/f147bc49c8ca576264fa6a353cd457d327b3ef32"
     },
     {
-      "sha": "b0a8f86b9674f745908dc135c02924e1c74ed62d",
-      "message": "removed mcl_cblocks conflicting with bc_cblocks",
+      "sha": "fc14ae31019d51eb269eedac7534f61dcc937f6e",
+      "message": "maps now on left of screen when in offhand,TODO: set hand wield on the left side",
       "author": {
-        "name": "wrxxnch",
-        "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-26T20:03:13Z",
+        "name": "root",
+        "email": "root@DESKTOP-DNDAQIO.localdomain",
+        "date": "2026-09-18T15:08:23Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/b0a8f86b9674f745908dc135c02924e1c74ed62d"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/fc14ae31019d51eb269eedac7534f61dcc937f6e"
     },
     {
-      "sha": "84e79971f772c0c4e3a4edf387ba206987ddebef",
-      "message": "big sulphur spikes added",
+      "sha": "29dc102b6e64e5d1a6140749c588bb64b45aa829",
+      "message": "Merge pull request #5 from wrxxnch/new-cartography\n\nNew cartography",
       "author": {
-        "name": "wrxxnch",
-        "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-26T20:02:34Z",
-        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+        "name": "Jean Pierre",
+        "email": "73299769+wrxxnch@users.noreply.github.com",
+        "date": "2026-09-18T13:21:30Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73299769?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/84e79971f772c0c4e3a4edf387ba206987ddebef"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/29dc102b6e64e5d1a6140749c588bb64b45aa829"
     },
     {
-      "sha": "787e0844f2282a5fa43354f5de52c8a64d2cfc9e",
-      "message": "re-added spike logic",
+      "sha": "fa02ea6f761765281e67690d608e8ede013355f3",
+      "message": "readded cartography.lua\n\ndisappeared for some reason",
       "author": {
-        "name": "wrxxnch",
-        "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-26T19:33:54Z",
-        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+        "name": "Jean Pierre",
+        "email": "73299769+wrxxnch@users.noreply.github.com",
+        "date": "2026-09-18T01:16:58Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73299769?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/787e0844f2282a5fa43354f5de52c8a64d2cfc9e"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/fa02ea6f761765281e67690d608e8ede013355f3"
     },
     {
-      "sha": "1db29d71e3b33a49e81b88f0a4c5a03bb80abac1",
-      "message": "now particles only happen when near water",
+      "sha": "7019976717b35648b501a776c20e2091978f47d0",
+      "message": "tools folder added && updated gitignore",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-26T18:54:00Z",
+        "date": "2026-09-17T13:00:47Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/1db29d71e3b33a49e81b88f0a4c5a03bb80abac1"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/7019976717b35648b501a776c20e2091978f47d0"
     },
     {
-      "sha": "98ad8a58b65e022ab0a8b1140a4edd8ef43bf6f1",
-      "message": "passive sulphur bubbles added to potent sulphur block with water above",
+      "sha": "c95cf965b2c1f62cae3cae942cdd26de584363ae",
+      "message": "updated the gitignore",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-26T17:55:08Z",
+        "date": "2026-09-16T19:01:36Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/98ad8a58b65e022ab0a8b1140a4edd8ef43bf6f1"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/c95cf965b2c1f62cae3cae942cdd26de584363ae"
     },
     {
-      "sha": "d44529dc61daa29868378cea416b6f9cf2d449a7",
-      "message": "geyser now pulls players,ptBr to EnUS",
+      "sha": "d82574eaf409fb3f4de66fee6cb0ec8125e6bba3",
+      "message": "fixed parse vec function: error: attempt to index local 'str' (a number value)",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-26T17:45:47Z",
+        "date": "2026-09-15T13:03:13Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/d44529dc61daa29868378cea416b6f9cf2d449a7"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/d82574eaf409fb3f4de66fee6cb0ec8125e6bba3"
     },
     {
-      "sha": "a9bd465ec485af0764341507cc0c560724eba0bb",
-      "message": "added geyser (magma+potent_sulphur+water) with nausea effect",
+      "sha": "dfebd56d934baaed18aa307b76078f0cc79c5a6d",
+      "message": "removed amethyst magic map(one day it will be back with a new reason);TODO fix offhand pos",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-26T17:25:31Z",
+        "date": "2026-09-15T12:15:36Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/a9bd465ec485af0764341507cc0c560724eba0bb"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/dfebd56d934baaed18aa307b76078f0cc79c5a6d"
     },
     {
-      "sha": "a78a1ac8944569de5ae06e5e7705a68cfd3d8e62",
-      "message": "now sulphur spikes are walkable=true(collision) and file ptBr to En-US",
+      "sha": "b582b25a9e012dc5e9cc1303affd33b02486a2de",
+      "message": "Add progressive exploration maps and cartography scaling",
       "author": {
         "name": "wrxxnch",
-        "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-26T15:26:48Z",
+        "email": "7.3299769e+07+wrxxnch@users.noreply.github.com",
+        "date": "2026-09-15T00:23:01Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/a78a1ac8944569de5ae06e5e7705a68cfd3d8e62"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/b582b25a9e012dc5e9cc1303affd33b02486a2de"
     },
     {
-      "sha": "f97c559841ae08d484aedaf4823bf8815f86f567",
-      "message": "added snow fox variant",
+      "sha": "d890a7a462485a2317f8594ef83180e6f26d977a",
+      "message": "fixed maps logic,exploration,cartography table(WIP),maps on itemframes,grass colour",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-26T14:26:57Z",
+        "date": "2026-09-14T20:41:39Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/f97c559841ae08d484aedaf4823bf8815f86f567"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/d890a7a462485a2317f8594ef83180e6f26d977a"
     },
     {
-      "sha": "ceb5e5b800fc629bc48f020e0554fc8478941cc7",
-      "message": "updated mod.conf",
+      "sha": "ac2d91ef7c29cb0ca33591d861d204efb70e0fb1",
+      "message": "removed coconut leaves from food group",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-25T14:06:24Z",
+        "date": "2026-09-14T11:34:48Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/ceb5e5b800fc629bc48f020e0554fc8478941cc7"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/ac2d91ef7c29cb0ca33591d861d204efb70e0fb1"
     },
     {
-      "sha": "9f6cc73e006c2ebfa3550b3c1fdd01ca1967e705",
-      "message": "added color blocks tab and infinite in creative fixed",
+      "sha": "9d78e3993135e58924277784d4019762ee0cf1bd",
+      "message": "Fix map item frames and offhand support",
       "author": {
         "name": "wrxxnch",
-        "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-24T18:01:52Z",
+        "email": "7.3299769e+07+wrxxnch@users.noreply.github.com",
+        "date": "2026-09-14T05:25:31Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/9f6cc73e006c2ebfa3550b3c1fdd01ca1967e705"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/9d78e3993135e58924277784d4019762ee0cf1bd"
     },
     {
-      "sha": "d21c1f2d224d8cc6ad851d8224b59bb3a53689a4",
-      "message": "added color blocks tab",
+      "sha": "e34594363e98d5b355038b40e3c01ab0e047650f",
+      "message": "Keep maps updated and enable explorer maps",
       "author": {
         "name": "wrxxnch",
-        "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-24T17:23:38Z",
+        "email": "7.3299769e+07+wrxxnch@users.noreply.github.com",
+        "date": "2026-09-14T04:56:35Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/d21c1f2d224d8cc6ad851d8224b59bb3a53689a4"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/e34594363e98d5b355038b40e3c01ab0e047650f"
     },
     {
-      "sha": "dbb8b21036b6be625e39190a1fef76e908d5df55",
-      "message": "fixed white,silver and gray texture on color blocks",
+      "sha": "a7d3b6f68bd8da28153d41d9a377acb48731860c",
+      "message": "Fix map creation and cartography markers",
+      "author": {
+        "name": "wrxxnch",
+        "email": "7.3299769e+07+wrxxnch@users.noreply.github.com",
+        "date": "2026-09-14T04:25:48Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/a7d3b6f68bd8da28153d41d9a377acb48731860c"
+    },
+    {
+      "sha": "0c253d722a0fd69b751c920b8eb1cbde96803651",
+      "message": "Fix VoxelManip cleanup for map generation",
+      "author": {
+        "name": "wrxxnch",
+        "email": "7.3299769e+07+wrxxnch@users.noreply.github.com",
+        "date": "2026-09-14T02:53:10Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/0c253d722a0fd69b751c920b8eb1cbde96803651"
+    },
+    {
+      "sha": "be40d6ef4ed84698743d228e522c4c086444f613",
+      "message": "Implement new cartography system",
+      "author": {
+        "name": "wrxxnch",
+        "email": "7.3299769e+07+wrxxnch@users.noreply.github.com",
+        "date": "2026-09-13T13:18:17Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/be40d6ef4ed84698743d228e522c4c086444f613"
+    },
+    {
+      "sha": "4144d2b7e4312610d3382a5fa4de8c9d64c6bb09",
+      "message": "fix: use explicit token for subtree sync",
+      "author": {
+        "name": "wrxxnch",
+        "email": "7.3299769e+07+wrxxnch@users.noreply.github.com",
+        "date": "2026-09-11T12:41:02Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/4144d2b7e4312610d3382a5fa4de8c9d64c6bb09"
+    },
+    {
+      "sha": "c4b20ed35aaeaf62c01ee740c2d6364fb65899a9",
+      "message": "added games/bettercraft as subtree && fixed the double R on BettercraftToken on workflow YML",
       "author": {
         "name": "wrxxnch",
         "email": "mrplayboyhacker@gmail.com",
-        "date": "2026-08-24T16:28:53Z",
+        "date": "2026-09-11T12:29:56Z",
         "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
       },
-      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/dbb8b21036b6be625e39190a1fef76e908d5df55"
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/c4b20ed35aaeaf62c01ee740c2d6364fb65899a9"
+    },
+    {
+      "sha": "450f1d7bf3886ccf618eeb1c71b97ef27b659f20",
+      "message": "added games/bettercraft as subtree",
+      "author": {
+        "name": "wrxxnch",
+        "email": "mrplayboyhacker@gmail.com",
+        "date": "2026-09-11T12:27:42Z",
+        "avatar_url": "https://avatars.githubusercontent.com/u/134978254?v=4"
+      },
+      "html_url": "https://github.com/wrxxnch/luanti-bettercraft/commit/450f1d7bf3886ccf618eeb1c71b97ef27b659f20"
     }
   ],
-  "lastCommitsFetch": 1788187906946
+  "lastCommitsFetch": 1791518566274,
+  "cachedLatestRelease": {
+    "tag_name": "NewCartographyUpdate",
+    "name": "NewCartographyUpdate",
+    "html_url": "https://github.com/wrxxnch/luanti-bettercraft/releases/tag/NewCartographyUpdate",
+    "published_at": "2026-09-20T00:32:27Z",
+    "body": "<img width=\"1604\" height=\"720\" alt=\"Screenshot_20260919-212435\" src=\"https://github.com/user-attachments/assets/78fde45a-5b14-40a5-8783-1692729e2bee\" />\r\n",
+    "apk_url": "https://github.com/wrxxnch/luanti-bettercraft/releases/download/NewCartographyUpdate/Luanti_5.17.0.apk",
+    "apk_name": "Luanti_5.17.0.apk",
+    "apk_size": 86040975
+  },
+  "lastReleaseFetch": 1791519024016
 }

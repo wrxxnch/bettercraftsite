@@ -13,7 +13,8 @@ import {
   AdminUser, 
   AuditLog,
   SplashConfig,
-  WallpaperItem
+  WallpaperItem,
+  GitHubRelease
 } from './types';
 import { api } from './services/api';
 import { firebaseApi, DEFAULT_SPLASHES, DEFAULT_WALLPAPERS } from './services/firebaseService';
@@ -97,6 +98,14 @@ const DEFAULT_FALLBACK_GAME_INFO: GameInfo = {
       type: "zip"
     },
     {
+      id: "dl-android",
+      label: "Última Release Android (APK)",
+      url: "https://github.com/wrxxnch/luanti-bettercraft/releases/latest",
+      platform: "Android",
+      subtext: "Baixar release compilada oficial mais recente",
+      type: "direct"
+    },
+    {
       id: "dl-github",
       label: "Repositório no GitHub",
       url: "https://github.com/wrxxnch/bettercraft",
@@ -130,6 +139,7 @@ function MainContent() {
   const [changelog, setChangelog] = useState<ChangelogRelease[]>([]);
   const [commits, setCommits] = useState<GitHubCommit[]>([]);
   const [logs, setLogs] = useState<AuditLog[]>([]);
+  const [latestRelease, setLatestRelease] = useState<GitHubRelease | null>(null);
   const [splashConfig, setSplashConfig] = useState<SplashConfig>(DEFAULT_SPLASHES);
   const [wallpapers, setWallpapers] = useState<WallpaperItem[]>(DEFAULT_WALLPAPERS);
   const [currentWallpaperUrl, setCurrentWallpaperUrl] = useState<string>('');
@@ -142,6 +152,7 @@ function MainContent() {
   const [adminLoginOpen, setAdminLoginOpen] = useState(false);
   const [addScreenshotOpen, setAddScreenshotOpen] = useState(false);
   const [addReleaseOpen, setAddReleaseOpen] = useState(false);
+  const [pastedScreenshotFile, setPastedScreenshotFile] = useState<File | null>(null);
   
   // Edit post state
   const [editingScreenshot, setEditingScreenshot] = useState<Screenshot | null>(null);
@@ -152,20 +163,89 @@ function MainContent() {
     setTimeout(() => setToastMessage(null), 3500);
   };
 
+  // Global Ctrl+V listener: paste screenshot from anywhere on the page
+  useEffect(() => {
+    const handleGlobalPaste = (e: ClipboardEvent) => {
+      // If modal is already open, AddScreenshotModal's own listener handles it internally
+      if (addScreenshotOpen || adminLoginOpen || adminPanelOpen || addReleaseOpen) {
+        return;
+      }
+
+      // Do not intercept if user is typing in an input or textarea
+      const activeEl = document.activeElement;
+      if (activeEl instanceof HTMLInputElement || activeEl instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      const clipboardData = e.clipboardData;
+      if (!clipboardData) return;
+
+      let imageFile: File | null = null;
+      if (clipboardData.items) {
+        for (let i = 0; i < clipboardData.items.length; i++) {
+          const item = clipboardData.items[i];
+          if (item.type && item.type.startsWith('image/')) {
+            const file = item.getAsFile();
+            if (file) {
+              imageFile = file;
+              break;
+            }
+          }
+        }
+      }
+
+      if (!imageFile && clipboardData.files && clipboardData.files.length > 0) {
+        for (let i = 0; i < clipboardData.files.length; i++) {
+          const file = clipboardData.files[i];
+          if (file.type && file.type.startsWith('image/')) {
+            imageFile = file;
+            break;
+          }
+        }
+      }
+
+      if (imageFile) {
+        e.preventDefault();
+        const canPost = isAdmin || gameInfo.allowPublicScreenshots;
+        if (!canPost) {
+          showToast('Para postar fotos capturadas via Ctrl+V, faça login como Administrador.');
+          return;
+        }
+
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+        const cleanFile = (!imageFile.name || imageFile.name === 'image.png' || imageFile.name === 'blob')
+          ? new File([imageFile], `print-luanti-${timestamp}.png`, { type: imageFile.type || 'image/png' })
+          : imageFile;
+
+        setPastedScreenshotFile(cleanFile);
+        setEditingScreenshot(null);
+        setAddScreenshotOpen(true);
+        showToast('Foto detectada no Ctrl+V! Complete as informações para publicar.');
+      }
+    };
+
+    window.addEventListener('paste', handleGlobalPaste);
+    return () => {
+      window.removeEventListener('paste', handleGlobalPaste);
+    };
+  }, [addScreenshotOpen, adminLoginOpen, adminPanelOpen, addReleaseOpen, isAdmin, gameInfo.allowPublicScreenshots]);
+
   const loadInitialData = useCallback(async () => {
     setIsLoading(true);
     try {
-      const [gInfo, changes, comms, lgs] = await Promise.allSettled([
+      const [gInfo, changes, comms, lgs, rel] = await Promise.allSettled([
         api.getGameInfo(),
         api.getChangelog(),
         api.getCommits(),
-        api.getLogs()
+        api.getLogs(),
+        api.getLatestRelease()
       ]);
 
       if (gInfo.status === 'fulfilled') setGameInfo(gInfo.value);
       if (changes.status === 'fulfilled') setChangelog(changes.value);
       if (comms.status === 'fulfilled') setCommits(comms.value);
       if (lgs.status === 'fulfilled') setLogs(lgs.value);
+      if (rel.status === 'fulfilled') setLatestRelease(rel.value);
     } catch (err) {
       console.error('Error loading initial app data:', err);
     } finally {
@@ -360,6 +440,7 @@ function MainContent() {
       });
       showToast(`Post "${created.title}" salvo no Firebase!`);
     }
+    setPastedScreenshotFile(null);
     await refreshLogs();
   };
 
@@ -571,13 +652,18 @@ function MainContent() {
           featuredScreenshots={featuredScreenshots}
           splashConfig={splashConfig}
           currentWallpaperUrl={currentWallpaperUrl}
+          latestRelease={latestRelease}
           onOpenAddScreenshot={() => {
             setEditingScreenshot(null);
             setAddScreenshotOpen(true);
           }}
         />
 
-        <FeaturesSection gameInfo={gameInfo} features={gameInfo?.features} />
+        <FeaturesSection 
+          gameInfo={gameInfo} 
+          features={gameInfo?.features} 
+          latestRelease={latestRelease} 
+        />
 
         <ScreenshotsGallery 
           screenshots={screenshots}
@@ -602,7 +688,10 @@ function MainContent() {
           isLoadingCommits={isRefreshingCommits}
         />
 
-        <InstallGuideSection gameInfo={gameInfo} />
+        <InstallGuideSection 
+          gameInfo={gameInfo} 
+          latestRelease={latestRelease} 
+        />
       </main>
 
       <Footer gameInfo={gameInfo} onOpenAdminLogin={() => setAdminLoginOpen(true)} />
@@ -654,10 +743,12 @@ function MainContent() {
         onClose={() => {
           setAddScreenshotOpen(false);
           setEditingScreenshot(null);
+          setPastedScreenshotFile(null);
         }}
         onSave={handleSaveScreenshot}
         editScreenshot={editingScreenshot}
         allowPublicScreenshots={gameInfo.allowPublicScreenshots}
+        initialImageFile={pastedScreenshotFile}
         onOpenAdminLogin={() => {
           setAddScreenshotOpen(false);
           setAdminLoginOpen(true);
