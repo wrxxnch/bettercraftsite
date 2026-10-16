@@ -76,7 +76,7 @@ export const Footer: React.FC<FooterProps> = ({
                 </a>
 
                 <a
-                  href="https://instagram.com/jeanpseven"
+                  href="https://instagram.com/wrxxnch"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mc-btn px-2.5 py-1.5 text-[11px] flex items-center gap-1.5 text-white hover:text-[#ff55ff] transition-colors"
