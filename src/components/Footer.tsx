@@ -80,7 +80,7 @@ export const Footer: React.FC<FooterProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mc-btn px-2.5 py-1.5 text-[11px] flex items-center gap-1.5 text-white hover:text-[#ff55ff] transition-colors"
-                  title="Instagram: jeanpseven"
+                  title="Instagram: wrxxnch"
                 >
                   <Instagram className="w-3.5 h-3.5 text-[#ff55ff]" />
                   <span>jeanpseven</span>
